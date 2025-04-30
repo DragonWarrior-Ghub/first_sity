@@ -1,0 +1,427 @@
+/* === Базовые reset и общие стили === */
+body {
+  margin: 0;
+  padding: 0;
+  background-color: #f4f4f4;
+  font-family: 'Roboto', sans-serif;
+  color: #333;
+  overflow-x: hidden;
+}
+
+.container {
+  width: 90%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+/* === Header и навигация === */
+.main-header {
+  background-color: #ffffff;
+  padding: 15px 0;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  border-bottom: 1px solid #ddd;
+}
+
+.nav-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 20px;
+}
+
+.logo h1 {
+  font-size: 2.4em;
+  color: #4caf50;
+  margin: 0;
+}
+
+/* главное меню */
+.main-nav {
+  display: flex;
+  align-items: center; /* выравниваем все пункты по центру */
+  gap: 12px;
+}
+
+.main-nav .nav-link {
+  color: #333;
+  text-decoration: none;
+  padding: 10px 14px;
+  border-radius: 4px;
+  background: #fff;
+  transition: background 0.3s, transform 0.2s;
+}
+
+.main-nav .nav-link.active,
+.main-nav .nav-link:hover {
+  background-color: #4caf50;
+  color: #fff;
+  transform: scale(1.05);
+}
+
+/* === Dropdown «Вход» === */
+.login-dropdown {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  vertical-align: middle;
+}
+
+.login-dropdown-content {
+  display: none;
+  position: absolute;
+  top: 100%;
+  right: 0;
+  background-color: #fff;
+  min-width: 160px;
+  box-shadow: 0px 8px 16px rgba(0,0,0,0.2);
+  border-radius: 4px;
+  z-index: 1;
+}
+
+.login-dropdown-content a {
+  color: #333;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+  transition: background 0.2s;
+}
+
+.login-dropdown-content a:hover {
+  background-color: #f1f1f1;
+}
+
+.login-dropdown.show .login-dropdown-content {
+  display: block;
+}
+
+/* === Hero Section === */
+.hero-section {
+  background: linear-gradient(135deg, #e8f5e9, #c8e6c9);
+  padding: 80px 20px;
+  text-align: center;
+  border-radius: 10px;
+  margin-bottom: 40px;
+}
+
+.hero-section h2 {
+  font-size: 3em;
+  margin-bottom: 20px;
+  color: #388e3c;
+}
+
+.hero-section p {
+  font-size: 1.3em;
+  margin-bottom: 30px;
+  color: #555;
+}
+
+.action-btn {
+  background: #4caf50;
+  color: #fff;
+  padding: 12px 30px;
+  text-decoration: none;
+  border-radius: 4px;
+  transition: background 0.3s, transform 0.3s;
+}
+
+.action-btn:hover {
+  background: #388e3c;
+  transform: scale(1.05);
+}
+
+/* === Cards & Sections === */
+.info-section,
+.news-section {
+  margin-bottom: 40px;
+}
+
+.feature-card,
+.card {
+  background: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+  padding: 20px;
+  margin-bottom: 20px;
+  transition: transform 0.3s;
+}
+
+.feature-card:hover,
+.card:hover {
+  transform: translateY(-4px);
+}
+
+.feature-card h3,
+.card h3 {
+  color: #4caf50;
+  margin-bottom: 10px;
+}
+
+.feature-card p,
+.card p {
+  color: #555;
+}
+
+/* === Анимации появления по скроллу === */
+.animated-title {
+  opacity: 0;
+  animation: slideInFromLeft 1s forwards;
+}
+
+@keyframes slideInFromLeft {
+  from { transform: translateX(-50px); opacity: 0; }
+  to   { transform: translateX(0);       opacity: 1; }
+}
+
+.fadeInSection {
+  opacity: 0;
+}
+
+.fadeInSection.appear {
+  animation: fadeIn 1s forwards;
+  animation-delay: 0.5s;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+.feature-card:nth-child(1) {
+  animation: fadeInUp 1s forwards;
+  animation-delay: 0.3s;
+}
+.feature-card:nth-child(2) {
+  animation: fadeInUp 1s forwards;
+  animation-delay: 0.6s;
+}
+.feature-card:nth-child(3) {
+  animation: fadeInUp 1s forwards;
+  animation-delay: 0.9s;
+}
+
+@keyframes fadeInUp {
+  from { transform: translateY(30px); opacity: 0; }
+  to   { transform: translateY(0);       opacity: 1; }
+}
+
+/* === Sub-header === */
+header.sub-header {
+  background-color: #f4f4f4;
+  padding: 20px 0;
+  text-align: center;
+  border-bottom: 1px solid #ddd;
+}
+
+header.sub-header h1 {
+  font-size: 2em;
+  color: #4caf50;
+  margin: 0;
+}
+
+/* === Nav in Sub-header === */
+.sub-nav {
+  margin-top: 10px;
+}
+
+.sub-nav .nav-link {
+  color: #333;
+  text-decoration: none;
+  margin: 0 10px;
+  padding: 8px 12px;
+  border-radius: 4px;
+  transition: background 0.3s;
+}
+
+.sub-nav .nav-link:hover,
+.sub-nav .nav-link.active {
+  background-color: #4caf50;
+  color: #fff;
+}
+
+/* === Forms: login & register === */
+.form-container {
+  max-width: 400px;
+  margin: 60px auto;
+  background: #ffffff;
+  padding: 30px;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+.form-container input,
+.form-container button {
+  width: 100%;
+  margin: 10px 0;
+  padding: 12px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 1em;
+}
+
+.form-container button {
+  background: #4caf50;
+  color: #fff;
+  border: none;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.form-container button:hover {
+  background: #388e3c;
+}
+
+.message-box p {
+  color: #d32f2f;
+  text-align: center;
+  margin-top: 10px;
+}
+
+/* === Events page === */
+.events-container {
+  max-width: 800px;
+  margin: 40px auto;
+  background: #ffffff;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+.events-container h1 {
+  color: #4caf50;
+  margin-bottom: 20px;
+}
+
+.event-form {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 30px;
+}
+
+.event-form input,
+.event-form button {
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 1em;
+}
+
+event-form input {
+  flex: 1 1 200px;
+}
+
+.event-form button {
+  background: #4caf50;
+  color: #fff;
+  border: none;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.event-form button:hover {
+  background: #388e3c;
+}
+
+#eventsTable {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+#eventsTable th,
+#eventsTable td {
+  padding: 12px;
+  border: 1px solid #ddd;
+  text-align: left;
+}
+
+#eventsTable th {
+  background: #f4f4f4;
+}
+
+.action-btn {
+  background: #4caf50;
+  color: #fff;
+  padding: 6px 12px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.action-btn:hover {
+  background: #388e3c;
+}
+
+/* === Footer === */
+.site-footer {
+  background: #ffffff;
+  color: #555;
+  text-align: center;
+  padding: 20px 0;
+  margin-top: 40px;
+  border-top: 1px solid #ddd;
+}
+
+/* === Chat Page Styles === */
+.chat-container {
+  background: #ffffff;
+  padding: 25px;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  max-width: 700px;
+  margin: 40px auto;
+}
+
+.chat-log {
+  background: #f9f9f9;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 15px;
+  height: 400px;
+  overflow-y: auto;
+  margin-bottom: 20px;
+}
+
+.chat-message {
+  margin-bottom: 14px;
+  padding: 8px 12px;
+  border-radius: 4px;
+  max-width: 80%;
+  line-height: 1.4;
+}
+
+.chat-message.user {
+  margin-left: auto;
+  background: #e8f5e9;
+  color: #333;
+}
+
+.chat-message.ai {
+  margin-right: auto;
+  background: #c8e6c9;
+  color: #333;
+}
+
+.chat-input {
+  width: calc(100% - 20px);
+  padding: 12px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  margin-bottom: 10px;
+}
+
+.chat-send {
+  width: 100%;
+  padding: 12px;
+  border: none;
+  background: #4caf50;
+  color: #fff;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.chat-send:hover {
+  background: #388e3c;
+}

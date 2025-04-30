@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Кабинет — Volunteer Tracker</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <header class="main-header">
+    <div class="nav-wrapper container">
+      <div class="logo"><h1>Volunteer Tracker</h1></div>
+      <nav class="main-nav">
+        <a href="index.html" class="nav-link">Главная</a>
+        <a href="events.html" class="nav-link">Мероприятия</a>
+        <a href="chat.html" class="nav-link">Чат</a>
+        <a href="dashboard.html" class="nav-link active">Кабинет</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+    <section class="info-box" style="display: flex; align-items: center; justify-content: space-between;">
+      <div>
+        <h2>Здравствуйте, <span id="username"></span>!</h2>
+        <p>Ваша роль: <strong><span id="role"></span></strong></p>
+      </div>
+      <button id="logoutBtn" class="action-btn" style="margin-left: 20px;">Выход</button>
+    </section>
+
+    <!-- Организаторы -->
+    <section id="orgSection" class="info-box">
+      <button id="createEventBtn" class="action-btn">Создать мероприятие</button>
+      <h3>Ваши мероприятия</h3>
+      <div id="myEvents"></div>
+    </section>
+
+    <!-- Волонтёры -->
+    <section id="volSection" class="info-box">
+      <h3>Мероприятия, в которых вы участвуете</h3>
+      <div id="registeredEvents"></div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <p>&copy; 2025 Volunteer Tracker</p>
+  </footer>
+
+  <script>
+    // Проверка авторизации
+    const user = JSON.parse(localStorage.getItem('user') || 'null');
+    if (!user) {
+      window.location.href = 'login.html';
+    }
+
+    // Отображаем имя и роль
+    document.getElementById('username').textContent = user.username;
+    document.getElementById('role').textContent = user.role;
+
+    // Показываем нужный раздел
+    document.getElementById('orgSection').style.display = (user.role === 'organizer') ? 'block' : 'none';
+    document.getElementById('volSection').style.display = (user.role === 'volunteer') ? 'block' : 'none';
+
+    // Логика выхода
+    document.getElementById('logoutBtn').addEventListener('click', () => {
+      localStorage.removeItem('user');
+      localStorage.removeItem('token');
+      window.location.href = 'login.html';
+    });
+
+    // TODO: вызвать функции загрузки событий
+    // loadMyEvents(); loadRegisteredEvents();
+  </script>
+</body>
+</html>

@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Чат — Volunteer Tracker</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <!-- Header -->
+  <header class="main-header">
+    <div class="nav-wrapper container">
+      <div class="logo"><h1>Volunteer Tracker</h1></div>
+      <nav class="main-nav">
+        <a href="index.html" class="nav-link">Главная</a>
+        <a href="events.html" class="nav-link">Мероприятия</a>
+        <a href="chat.html" class="nav-link active">Чат</a>
+
+        <!-- По умолчанию показываем вход -->
+        <div id="authLinks" class="login-dropdown">
+          <a href="#" class="nav-link" id="loginToggle">Вход</a>
+          <div class="login-dropdown-content">
+            <a href="login.html">Войти</a>
+            <a href="register.html">Зарегистрироваться</a>
+          </div>
+        </div>
+
+        <!-- Ссылка на кабинет, скрыта пока не залогинен -->
+        <a href="dashboard.html" class="nav-link" id="dashboardLink" style="display:none;">Кабинет</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Chat Interface -->
+  <main class="chat-container container">
+    <div id="chatLog" class="chat-log"></div>
+    <input id="chatInput" class="chat-input" type="text" placeholder="Введите сообщение..." autofocus>
+    <button id="sendBtn" class="chat-send">Отправить</button>
+  </main>
+
+  <!-- Footer -->
+  <footer class="site-footer">
+    <div class="container">
+      <p>&copy; 2025 Volunteer Tracker</p>
+    </div>
+  </footer>
+
+  <!-- Скрипт логики чата -->
+  <script src="js/chat.js"></script>
+  <script>
+    // Показать/скрыть «Вход» и «Кабинет»
+    const user = JSON.parse(localStorage.getItem('user') || 'null');
+    const authLinks     = document.getElementById('authLinks');
+    const dashboardLink = document.getElementById('dashboardLink');
+    if (user) {
+      authLinks.style.display     = 'none';
+      dashboardLink.style.display = 'inline-block';
+    } else {
+      authLinks.style.display     = 'inline-block';
+      dashboardLink.style.display = 'none';
+    }
+
+    // Дропдаун «Вход»
+    document.getElementById('loginToggle').addEventListener('click', e => {
+      e.preventDefault();
+      document.querySelector('.login-dropdown').classList.toggle('show');
+    });
+    window.addEventListener('click', e => {
+      const dd = document.querySelector('.login-dropdown');
+      if (dd && !dd.contains(e.target)) dd.classList.remove('show');
+    });
+  </script>
+</body>
+</html>

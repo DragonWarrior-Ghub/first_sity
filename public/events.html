@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Мероприятия — Volunteer Tracker</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <header class="main-header">
+    <div class="nav-wrapper container">
+      <div class="logo"><h1>Volunteer Tracker</h1></div>
+      <nav class="main-nav">
+        <a href="index.html" class="nav-link">Главная</a>
+        <a href="events.html" class="nav-link active">Мероприятия</a>
+        <a href="chat.html" class="nav-link">Чат</a>
+
+        <a href="dashboard.html" class="nav-link" id="dashboardLink" style="display:none;">Кабинет</a>
+        <div id="authLinks" class="login-dropdown">
+          <a href="#" class="nav-link" id="loginToggle">Вход</a>
+          <div class="login-dropdown-content">
+            <a href="login.html">Войти</a>
+            <a href="register.html">Регистрация</a>
+          </div>
+        </div>
+      </nav>
+    </div>
+  </header>
+
+  <main class="events-container container">
+    <h1>Мероприятия</h1>
+
+    <div id="eventFormContainer">
+      <h2>Создать новое мероприятие</h2>
+      <form class="event-form" id="eventForm">
+        <input type="text" id="title" placeholder="Название мероприятия" required>
+        <textarea id="description" placeholder="Описание события" rows="3"></textarea>
+        <input type="datetime-local" id="start_time" required>
+        <input type="datetime-local" id="end_time" required>
+        <input type="number" id="max_participants" placeholder="Макс волонтёров" min="0">
+        <button type="submit">Создать</button>
+      </form>
+    </div>
+
+    <div class="table-responsive" style="overflow-x:auto;">
+      <table id="eventsTable">
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Название</th>
+            <th>Описание</th>
+            <th>Начало</th>
+            <th>Конец</th>
+            <th>Организатор ID</th>
+            <th>Макс участников</th>
+            <th>Зарегистрировано</th>
+            <th>Регистрация</th>
+          </tr>
+        </thead>
+        <tbody>
+          <!-- строки добавляются в js -->
+        </tbody>
+      </table>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <p>&copy; 2025 Volunteer Tracker</p>
+  </footer>
+
+  <script src="js/events.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const user          = JSON.parse(localStorage.getItem('user') || 'null');
+      const authLinks     = document.getElementById('authLinks');
+      const dashLink      = document.getElementById('dashboardLink');
+      const formContainer = document.getElementById('eventFormContainer');
+
+      // Показываем/скрываем «Вход» и «Кабинет»
+      if (user) {
+        authLinks.style.display = 'none';
+        dashLink.style.display  = 'inline-block';
+      } else {
+        authLinks.style.display = 'inline-flex';
+        dashLink.style.display  = 'none';
+      }
+
+      // Форма создания — только для организаторов
+      if (!user || user.role !== 'organizer') {
+        formContainer.style.display = 'none';
+      }
+
+      // Dropdown «Вход»
+      document.getElementById('loginToggle').addEventListener('click', e => {
+        e.preventDefault();
+        authLinks.classList.toggle('show');
+      });
+      window.addEventListener('click', e => {
+        if (!authLinks.contains(e.target)) {
+          authLinks.classList.remove('show');
+        }
+      });
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Вход — Volunteer Tracker</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <header class="sub-header">
+    <h1>Вход</h1>
+    <nav class="sub-nav">
+      <a href="index.html" class="nav-link">Главная</a>
+      <a href="register.html" class="nav-link">Регистрация</a>
+    </nav>
+  </header>
+
+  <main class="form-page container">
+    <div class="form-container">
+      <form id="loginForm" class="form-box">
+        <input type="email"   name="email"    placeholder="Email"    required>
+        <input type="password" name="password" placeholder="Пароль"   required>
+        <button type="submit" class="submit-btn">Войти</button>
+      </form>
+      <div id="message" class="message-box"></div>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <p>&copy; 2025 Volunteer Tracker</p>
+  </footer>
+
+  <script>
+    const form   = document.getElementById('loginForm');
+    const msgDiv = document.getElementById('message');
+
+    form.addEventListener('submit', async e => {
+      e.preventDefault();
+      msgDiv.textContent = '';
+
+      const email    = form.email.value.trim();
+      const password = form.password.value;
+
+      try {
+        const res = await fetch('/api/login', {
+          method: 'POST',
+          headers: { 'Content-Type':'application/json' },
+          body: JSON.stringify({ email, password })
+        });
+        const result = await res.json();
+
+        if (res.ok) {
+          // сохраняем JWT и данные пользователя
+          localStorage.setItem('token', result.token);
+          localStorage.setItem('user', JSON.stringify(result.user));
+
+          msgDiv.innerHTML = '<p>Успешно! Перенаправление…</p>';
+          setTimeout(() => window.location.href = 'dashboard.html', 800);
+        } else {
+          msgDiv.innerHTML = `<p>${result.message}</p>`;
+        }
+      } catch (err) {
+        msgDiv.innerHTML = `<p>Ошибка сети: ${err.message}</p>`;
+      }
+    });
+  </script>
+</body>
+</html>
