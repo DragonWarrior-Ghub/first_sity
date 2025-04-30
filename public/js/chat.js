@@ -19,26 +19,18 @@ document.addEventListener('DOMContentLoaded', () => {
       if (!msg) return;
       appendMessage('user', msg);
       chatInput.value = '';
-  
       try {
         const res = await fetch('/api/chat', {
           method: 'POST',
-          headers: {
-            'Content-Type':'application/json',
-            ...(user ? { 'Authorization': 'Bearer ' + token } : {})
-          },
+          headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ message: msg })
         });
         const data = await res.json();
-        appendMessage('ai', data.response);
+        appendMessage('ai', data.response || 'Ответ не получен.');
       } catch (err) {
         appendMessage('ai', 'Ошибка: ' + err.message);
       }
     }
-  
-    sendBtn.addEventListener('click', sendMessage);
-    chatInput.addEventListener('keyup', e => {
-      if (e.key === 'Enter') sendMessage();
-    });
+    
   });
   
