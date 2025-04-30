@@ -1,35 +1,36 @@
-// public/js/chat.js
-document.addEventListener('DOMContentLoaded', () => {
-    const chatLog   = document.getElementById('chatLog');
-    const chatInput = document.getElementById('chatInput');
-    const sendBtn   = document.getElementById('sendBtn');
-    const user      = JSON.parse(localStorage.getItem('user') || 'null');
-    const token     = localStorage.getItem('token');
-  
-    function appendMessage(cls, text) {
-      const div = document.createElement('div');
-      div.className = `chat-message ${cls}`;
-      div.textContent = text;
-      chatLog.appendChild(div);
-      chatLog.scrollTop = chatLog.scrollHeight;
+// routes/chatRoutes.js
+const express = require('express');
+const fetch   = require('node-fetch');
+const router  = express.Router();
+
+const LM_URL   = process.env.LM_STUDIO_URL;
+const LM_MODEL = process.env.LM_STUDIO_MODEL;
+
+// POST /api/chat
+router.post('/chat', async (req, res) => {
+  try {
+    const { message } = req.body;
+    const resp = await fetch(`${LM_URL}/v1/chat/completions`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        model: LM_MODEL,
+        messages: [{ role: 'user', content: message }]
+      })
+    });
+    if (!resp.ok) {
+      const text = await resp.text();
+      return res.status(resp.status).json({ response: `LM error: ${text}` });
     }
-  
-    async function sendMessage() {
-      const msg = chatInput.value.trim();
-      if (!msg) return;
-      appendMessage('user', msg);
-      chatInput.value = '';
-      try {
-        const res = await fetch('/api/chat', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ message: msg })
-        });
-        const data = await res.json();
-        appendMessage('ai', data.response || 'Ответ не получен.');
-      } catch (err) {
-        appendMessage('ai', 'Ошибка: ' + err.message);
-      }
-    }
-    
-  });
+    const data = await resp.json();
+    const reply = data.choices?.[0]?.message?.content || '';
+    res.json({ response: reply });
+  } catch (err) {
+    console.error('Chat proxy error:', err);
+    res.status(500).json({ response: err.message });
+  }
+});
+
+module.exports = router;
