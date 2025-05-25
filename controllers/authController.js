@@ -1,54 +1,66 @@
 // controllers/authController.js
 const bcrypt = require('bcrypt');
-const jwt    = require('jsonwebtoken');
-const { db } = require('../config/db');
-require('dotenv').config();
-const JWT_SECRET = process.env.JWT_SECRET;
+const { createUser, findById, findByUsername, findByEmail } = require('../models/userModel');
+const saltRounds = 10;
 
-exports.register = async (req, res) => {
-  const { username, email, password, role } = req.body;
-  try {
-    const hash = await bcrypt.hash(password, 10);
-    db.run(
-      `INSERT INTO participants (username, email, password_hash, role)
-         VALUES (?, ?, ?, ?)`,
-      [username, email, hash, role || 'volunteer'],
-      function(err) {
-        if (err) {
-          console.error(err);
-          return res.status(500).json({ message: 'Ошибка регистрации' });
-        }
-        res.status(201).json({
-          id: this.lastID, username, email, role: role || 'volunteer'
+// Регистрация
+async function register(req, res) {
+  const { username, email, password } = req.body;
+  if (!username || !email || !password) {
+    return res.status(400).json({ error: 'Все поля обязательны' });
+  }
+  findByUsername(username, (err, row1) => {
+    if (row1) return res.status(409).json({ error: 'Имя занято' });
+    findByEmail(email, (err, row2) => {
+      if (row2) return res.status(409).json({ error: 'Email уже используется' });
+      bcrypt.hash(password, saltRounds, (err, hash) => {
+        createUser(username, email, hash, (err, userId) => {
+          if (err) return res.status(500).json({ error: 'Не удалось создать' });
+          req.session.userId = userId;
+          res.json({ success: true, userId });
         });
-      }
-    );
-  } catch (e) {
-    console.error(e);
-    res.status(500).json({ message: 'Серверная ошибка' });
-  }
-};
+      });
+    });
+  });
+}
 
-exports.login = async (req, res) => {
+// Логин
+function login(req, res) {
   const { email, password } = req.body;
-  try {
-    db.get(
-      `SELECT id, username, password_hash, role
-         FROM participants WHERE email = ?`,
-      [email],
-      async (err, row) => {
-        if (err) return res.status(500).json({ message: 'Серверная ошибка' });
-        if (!row) return res.status(401).json({ message: 'Неверный email или пароль' });
-        const ok = await bcrypt.compare(password, row.password_hash);
-        if (!ok) return res.status(401).json({ message: 'Неверный email или пароль' });
-
-        const user = { id: row.id, username: row.username, role: row.role };
-        const token = jwt.sign(user, JWT_SECRET, { expiresIn: '2h' });
-        res.json({ token, user });
-      }
-    );
-  } catch (e) {
-    console.error(e);
-    res.status(500).json({ message: 'Серверная ошибка' });
+  if (!email || !password) {
+    return res.status(400).json({ error: 'Все поля обязательны' });
   }
-};
+  findByEmail(email, (err, user) => {
+    if (!user) return res.status(401).json({ error: 'Неверные учётные данные' });
+    bcrypt.compare(password, user.password_hash, (err, match) => {
+      if (!match) return res.status(401).json({ error: 'Неверные учётные данные' });
+      req.session.userId = user.id;
+      res.json({ success: true });
+    });
+  });
+}
+
+// Выход
+function logout(req, res) {
+  req.session.destroy(() => res.json({ success: true }));
+}
+
+// Статус аутентификации
+function status(req, res) {
+  if (!req.session.userId) {
+    return res.json({ authenticated: false });
+  }
+  findById(req.session.userId, (err, user) => {
+    if (err || !user) {
+      return res.json({ authenticated: false });
+    }
+    // Возвращаем и username, и email
+    res.json({
+      authenticated: true,
+      username: user.username,
+      email: user.email
+    });
+  });
+}
+
+module.exports = { register, login, logout, status };

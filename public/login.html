@@ -3,66 +3,170 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Вход — Volunteer Tracker</title>
+  <title>Global Travel — Вход / Регистрация</title>
   <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-  <header class="sub-header">
-    <h1>Вход</h1>
-    <nav class="sub-nav">
-      <a href="index.html" class="nav-link">Главная</a>
-      <a href="register.html" class="nav-link">Регистрация</a>
-    </nav>
+
+  <!-- HEADER -->
+  <header class="site-header">
+    <div class="container header-inner">
+      <a href="index.html" class="logo">Global Travel</a>
+      <nav class="nav">
+        <a href="index.html" class="nav-item">Главная</a>
+        <a href="catalog.html" class="nav-item">Туры</a>
+        <a href="contacts.html" class="nav-item">Контакты</a>
+        <a href="login.html" class="nav-item active">Вход</a>
+      </nav>
+    </div>
   </header>
 
-  <main class="form-page container">
-    <div class="form-container">
-      <form id="loginForm" class="form-box">
-        <input type="email"   name="email"    placeholder="Email"    required>
-        <input type="password" name="password" placeholder="Пароль"   required>
-        <button type="submit" class="submit-btn">Войти</button>
+  <!-- LOGIN / REGISTER -->
+  <main class="login-section">
+    <div class="login-card">
+      
+      <!-- Таб-переключатель -->
+      <div class="tab-header">
+        <button class="tab-btn active" data-tab="login">Вход</button>
+        <button class="tab-btn" data-tab="register">Регистрация</button>
+      </div>
+
+      <!-- Форма ВОЙТИ -->
+      <form id="loginForm" class="login-form form-login" action="#" method="post" style="display:flex; flex-direction:column;">
+        <div id="loginMessage" class="form-message"></div>
+        <div class="form-group">
+          <label for="login-email">Email</label>
+          <input id="login-email" type="email" name="email" placeholder="Введите ваш email" required>
+        </div>
+        <div class="form-group">
+          <label for="login-password">Пароль</label>
+          <input id="login-password" type="password" name="password" placeholder="Введите пароль" required>
+        </div>
+        <div class="form-options">
+          <label><input type="checkbox" name="remember"> Запомнить меня</label>
+          <a href="#" class="forgot">Забыли пароль?</a>
+        </div>
+        <button type="submit" class="btn btn--login">Войти</button>
       </form>
-      <div id="message" class="message-box"></div>
+
+      <!-- Форма РЕГИСТРАЦИЯ -->
+      <form id="registerForm" class="login-form form-register" action="#" method="post" style="display:none; flex-direction:column;">
+        <div id="registerMessage" class="form-message"></div>
+        <div class="form-group">
+          <label for="reg-name">Имя</label>
+          <input id="reg-name" type="text" name="name" placeholder="Ваше имя" required>
+        </div>
+        <div class="form-group">
+          <label for="reg-email">Email</label>
+          <input id="reg-email" type="email" name="email" placeholder="example@mail.com" required>
+        </div>
+        <div class="form-group">
+          <label for="reg-password">Пароль</label>
+          <input id="reg-password" type="password" name="password" placeholder="Придумайте пароль" required>
+        </div>
+        <div class="form-group">
+          <label for="reg-password-confirm">Повторите пароль</label>
+          <input id="reg-password-confirm" type="password" name="password_confirm" placeholder="Повторите пароль" required>
+        </div>
+        <div class="form-options">
+          <label><input type="checkbox" name="terms" required> Принимаю условия <a href="#">пользовательского соглашения</a></label>
+        </div>
+        <button type="submit" class="btn btn--login">Зарегистрироваться</button>
+      </form>
+
     </div>
   </main>
 
+  <!-- FOOTER -->
   <footer class="site-footer">
-    <p>&copy; 2025 Volunteer Tracker</p>
+    <div class="container footer-inner">
+      <p>&copy; 2025 «Global Travel». Все права защищены.</p>
+      <nav class="footer-nav">
+        <a href="index.html">Главная</a>
+        <a href="catalog.html">Туры</a>
+        <a href="contacts.html">Контакты</a>
+      </nav>
+    </div>
   </footer>
 
   <script>
-    const form   = document.getElementById('loginForm');
-    const msgDiv = document.getElementById('message');
+    // Таб-переключатель
+    const tabButtons      = document.querySelectorAll('.tab-btn');
+    const loginForm       = document.getElementById('loginForm');
+    const registerForm    = document.getElementById('registerForm');
+    const loginMessage    = document.getElementById('loginMessage');
+    const registerMessage = document.getElementById('registerMessage');
 
-    form.addEventListener('submit', async e => {
-      e.preventDefault();
-      msgDiv.textContent = '';
-
-      const email    = form.email.value.trim();
-      const password = form.password.value;
-
-      try {
-        const res = await fetch('/api/login', {
-          method: 'POST',
-          headers: { 'Content-Type':'application/json' },
-          body: JSON.stringify({ email, password })
-        });
-        const result = await res.json();
-
-        if (res.ok) {
-          // сохраняем JWT и данные пользователя
-          localStorage.setItem('token', result.token);
-          localStorage.setItem('user', JSON.stringify(result.user));
-
-          msgDiv.innerHTML = '<p>Успешно! Перенаправление…</p>';
-          setTimeout(() => window.location.href = 'dashboard.html', 800);
+    tabButtons.forEach(btn => {
+      btn.addEventListener('click', () => {
+        tabButtons.forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        if (btn.dataset.tab === 'login') {
+          loginForm.style.display    = 'flex';
+          registerForm.style.display = 'none';
         } else {
-          msgDiv.innerHTML = `<p>${result.message}</p>`;
+          loginForm.style.display    = 'none';
+          registerForm.style.display = 'flex';
         }
-      } catch (err) {
-        msgDiv.innerHTML = `<p>Ошибка сети: ${err.message}</p>`;
+        loginMessage.textContent    = '';
+        registerMessage.textContent = '';
+      });
+    });
+
+    // Обработка входа по email
+    loginForm.addEventListener('submit', async e => {
+      e.preventDefault();
+      loginMessage.textContent = '';
+
+      const formData = new FormData(loginForm);
+      const payload  = Object.fromEntries(formData.entries());
+      // payload = { email: "...", password: "..." }
+
+      const res = await fetch('/api/auth/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+      });
+      const data = await res.json();
+
+      if (data.success) {
+        window.location.href = '/index.html';
+      } else {
+        loginMessage.textContent = data.error || 'Ошибка при входе';
+      }
+    });
+
+    // Обработка регистрации
+    registerForm.addEventListener('submit', async e => {
+      e.preventDefault();
+      registerMessage.textContent = '';
+
+      const formData = new FormData(registerForm);
+      const payload  = Object.fromEntries(formData.entries());
+
+      if (payload.password !== payload.password_confirm) {
+        registerMessage.textContent = 'Пароли не совпадают';
+        return;
+      }
+
+      const res = await fetch('/api/auth/register', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          username: payload.name,
+          email:    payload.email,
+          password: payload.password
+        })
+      });
+      const data = await res.json();
+
+      if (data.success) {
+        window.location.href = '/index.html';
+      } else {
+        registerMessage.textContent = data.error || 'Ошибка при регистрации';
       }
     });
   </script>
+
 </body>
 </html>

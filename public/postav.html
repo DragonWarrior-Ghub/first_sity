@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Global Travel — Панель поставщика</title>
+  <link rel="stylesheet" href="css/style.css">
+  <style>
+    /* Панель поставщика */
+    .supplier-section { padding: 4rem 0; }
+    .supplier-header h2 { font-size: 2rem; margin-bottom: 1.5rem; }
+    .supplier-actions { margin-bottom: 2rem; }
+    .supplier-actions .btn { margin-bottom: 1rem; }
+
+    .supplier-cards {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1.5rem;
+      margin-bottom: 2rem;
+    }
+    .supplier-card {
+      flex: 1;
+      min-width: 200px;
+      background: var(--color-white);
+      padding: 1.5rem;
+      border-radius: 8px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+      text-align: center;
+    }
+    .supplier-card h3 { margin-bottom: 0.5rem; font-size: 1.25rem; }
+    .supplier-card p { font-size: 1.5rem; font-weight: bold; color: var(--color-primary); }
+
+    .section-divider {
+      border: none; height: 2px;
+      background: var(--color-primary);
+      width: 60px; margin: 2rem auto;
+    }
+
+    .supplier-table {
+      background: var(--color-white);
+      padding: 1.5rem;
+      border-radius: 8px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+      margin-bottom: 1rem;
+    }
+    .supplier-table h3 { margin-bottom: 1rem; font-size: 1.5rem; }
+    .supplier-table table {
+      width: 100%; border-collapse: collapse;
+    }
+    .supplier-table th, .supplier-table td {
+      padding: 0.75rem; border: 1px solid #ddd; text-align: left;
+    }
+    .supplier-table th { background: #f9f9f9; }
+    .supplier-table td .btn-sm {
+      font-size: 0.75rem; padding: 0.25rem 0.5rem;
+    }
+    .table-footer {
+      text-align: right; margin-top: 0.5rem;
+    }
+
+    .supplier-comments {
+      background: var(--color-white); padding: 1.5rem;
+      border-radius: 8px; box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+      margin-bottom: 2rem;
+    }
+    .supplier-comments h3 { margin-bottom: 1rem; font-size: 1.5rem; }
+    .supplier-comments ul {
+      list-style: none; padding: 0;
+    }
+    .supplier-comments li {
+      padding: 0.5rem 0; border-bottom: 1px solid #eee;
+      display: flex; justify-content: space-between; align-items: center;
+    }
+    .supplier-comments li:last-child { border-bottom: none; }
+
+    .popular-tours {
+      background: var(--color-white); padding: 1.5rem;
+      border-radius: 8px; box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+      margin-bottom: 2rem;
+    }
+    .popular-tours h3 { margin-bottom: 1rem; font-size: 1.5rem; }
+    .popular-tours ul {
+      list-style: none; padding: 0;
+    }
+    .popular-tours li {
+      padding: 0.5rem 0; border-bottom: 1px solid #eee;
+      display: flex; justify-content: space-between;
+    }
+    .popular-tours li:last-child { border-bottom: none; }
+
+    .supplier-chart {
+      background: var(--color-white); padding: 1.5rem;
+      border-radius: 8px; box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    }
+    .supplier-chart h3 { margin-bottom: 1rem; font-size: 1.5rem; }
+    .chart-placeholder {
+      width: 100%; height: 200px; background: #f0f0f0;
+      border-radius: 4px; display: flex;
+      align-items: center; justify-content: center;
+      color: #999; font-style: italic;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- HEADER -->
+  <header class="site-header">
+    <div class="container header-inner">
+      <a href="supplier.html" class="logo">Global Travel</a>
+      <nav class="nav">
+        <a href="supplier.html" class="nav-item active">Панель поставщика</a>
+        <a href="supplier-tours.html" class="nav-item">Мои туры</a>
+        <a href="logout.html" class="nav-item">Выход</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- SUPPLIER DASHBOARD -->
+  <main style="margin-top:70px;">
+    <section class="supplier-section">
+      <div class="container">
+
+        <!-- Заголовок и действие -->
+        <div class="supplier-header">
+          <h2>Добро пожаловать, Поставщик «Mountain Adventures»!</h2>
+        </div>
+        <div class="supplier-actions">
+          <a href="supplier-new-tour.html" class="btn">Добавить новый тур</a>
+        </div>
+
+        <!-- Статистика туров -->
+        <div class="supplier-cards">
+          <div class="supplier-card">
+            <h3>Опубликовано туров</h3><p>12</p>
+          </div>
+          <div class="supplier-card">
+            <h3>Активных</h3><p>9</p>
+          </div>
+          <div class="supplier-card">
+            <h3>Неактивных</h3><p>3</p>
+          </div>
+          <div class="supplier-card">
+            <h3>Всех бронирований</h3><p>254</p>
+          </div>
+        </div>
+
+        <hr class="section-divider">
+
+        <!-- Опубликованные туры -->
+        <div class="supplier-table">
+          <h3>Опубликованные туры</h3>
+          <table>
+            <thead>
+              <tr>
+                <th>ID</th><th>Название</th><th>Дата публикации</th>
+                <th>Статус</th><th>Бронирований</th><th>Действие</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>T-301</td>
+                <td>Горный поход</td>
+                <td>2025-04-10</td>
+                <td>Активен</td>
+                <td>78</td>
+                <td><a href="supplier-tour-T-301.html" class="btn-sm">Просмотр</a></td>
+              </tr>
+              <tr>
+                <td>T-302</td>
+                <td>Пляжный отдых</td>
+                <td>2025-03-22</td>
+                <td>Активен</td>
+                <td>53</td>
+                <td><a href="supplier-tour-T-302.html" class="btn-sm">Просмотр</a></td>
+              </tr>
+              <tr>
+                <td>T-303</td>
+                <td>Поход в лес</td>
+                <td>2025-02-15</td>
+                <td>Неактивен</td>
+                <td>34</td>
+                <td><a href="supplier-tour-T-303.html" class="btn-sm">Просмотр</a></td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="table-footer">
+            <a href="supplier-tours.html" class="btn-sm">Все опубликованные туры →</a>
+          </div>
+        </div>
+
+        <hr class="section-divider">
+
+        <!-- Комментарии к активным турам -->
+        <div class="supplier-comments">
+          <h3>Комментарии к активным турам</h3>
+          <ul>
+            <li>
+              <span>Иван П. к «Горный поход» (2025-05-20): «Отличная организация!»</span>
+              <a href="supplier-comment-1.html" class="btn-sm">Ответить</a>
+            </li>
+            <li>
+              <span>Светлана К. к «Пляжный отдых» (2025-05-18): «Потрясающий вид!»</span>
+              <a href="supplier-comment-2.html" class="btn-sm">Ответить</a>
+            </li>
+            <li>
+              <span>Дмитрий С. к «Горный поход» (2025-05-17): «Гид был на высоте!»</span>
+              <a href="supplier-comment-3.html" class="btn-sm">Ответить</a>
+            </li>
+          </ul>
+          <div class="table-footer">
+            <a href="supplier-comments.html" class="btn-sm">Все комментарии →</a>
+          </div>
+        </div>
+
+        <hr class="section-divider">
+
+        <!-- Популярные туры -->
+        <div class="popular-tours">
+          <h3>Популярные туры</h3>
+          <ul>
+            <li>Горный поход <span>78 бронирований</span></li>
+            <li>Пляжный отдых <span>53 бронирования</span></li>
+            <li>Поход в лес <span>34 бронирования</span></li>
+          </ul>
+          <div class="table-footer">
+            <a href="supplier-popular.html" class="btn-sm">Подробнее →</a>
+          </div>
+        </div>
+
+        <hr class="section-divider">
+
+        <!-- Статус всех туров -->
+        <div class="supplier-chart">
+          <h3>Статус всех туров</h3>
+          <div class="chart-placeholder">Здесь будет диаграмма статусов туров</div>
+        </div>
+
+      </div>
+    </section>
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <p>&copy; 2025 «Global Travel». Все права защищены.</p>
+      <nav class="footer-nav">
+        <a href="index.html">Главная</a>
+        <a href="catalog.html">Туры</a>
+        <a href="contacts.html">Контакты</a>
+      </nav>
+    </div>
+  </footer>
+
+</body>
+</html>

@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Global Travel — Мой аккаунт</title>
+  <link rel="stylesheet" href="css/style.css">
+  <style>
+    .section-divider {
+      border: none; height: 2px; background: var(--color-primary,#333);
+      width: 60px; margin: 2rem auto;
+    }
+    .account-info, .bookings {
+      margin-bottom: 3rem;
+    }
+    .bookings-table {
+      width: 100%; border-collapse: collapse; margin-top: 1rem;
+    }
+    .bookings-table th, .bookings-table td {
+      border: 1px solid #ccc; padding: 0.5rem; text-align: left;
+    }
+    .bookings-table th {
+      background: var(--color-primary,#333); color: #fff;
+    }
+    .btn--link {
+      background: none; border: none; color: var(--color-primary,#333);
+      cursor: pointer; text-decoration: underline; padding: 0;
+    }
+    .btn {
+      display: inline-block; padding: 0.6rem 1.2rem; background: var(--color-primary,#333);
+      color: #fff; border-radius: 4px; text-decoration: none; margin-bottom: 1rem;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- HEADER -->
+  <header class="site-header">
+    <div class="container header-inner">
+      <a href="index.html" class="logo">Global Travel</a>
+      <nav class="nav">
+        <a href="index.html" class="nav-item">Главная</a>
+        <a href="catalog.html" class="nav-item">Туры</a>
+        <a href="contacts.html" class="nav-item">Контакты</a>
+        <span id="auth-links">
+          <a href="login.html" class="nav-item">Вход</a>
+        </span>
+      </nav>
+    </div>
+  </header>
+
+  <!-- MAIN CONTENT -->
+  <main style="margin-top:70px;">
+    <div class="container" style="padding:4rem 0;">
+
+      <!-- Account Header -->
+      <h1>Мой аккаунт</h1>
+      <hr class="section-divider"/>
+
+      <!-- Личные данные -->
+      <section class="account-info">
+        <h2>Личные данные</h2>
+        <p><strong>Имя:</strong> <span id="profileName">—</span></p>
+        <p><strong>Email:</strong> <span id="profileEmail">—</span></p>
+      </section>
+
+      <hr class="section-divider"/>
+
+      <!-- Сравнения -->
+      <section class="comparisons">
+        <h2>Мои сравнения</h2>
+        <a href="compare.html" class="btn">Перейти к сравнениям</a>
+      </section>
+
+      <hr class="section-divider"/>
+
+      <!-- Мои бронирования -->
+      <section class="bookings">
+        <h2>Мои бронирования</h2>
+        <table class="bookings-table">
+          <thead>
+            <tr>
+              <th>Тур</th>
+              <th>Даты</th>
+              <th>Статус</th>
+              <th>Действие</th>
+            </tr>
+          </thead>
+          <tbody id="upcomingList">
+            <!-- Пример записи -->
+            <tr>
+              <td>Горный поход</td>
+              <td>27.05.2025–01.06.2025</td>
+              <td>Ожидается</td>
+              <td><button class="btn--link">Отменить</button></td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+
+      <hr class="section-divider"/>
+
+      <!-- Архивные бронирования -->
+      <section class="bookings">
+        <h2>Архивные бронирования</h2>
+        <table class="bookings-table">
+          <thead>
+            <tr>
+              <th>Тур</th>
+              <th>Даты</th>
+              <th>Статус</th>
+            </tr>
+          </thead>
+          <tbody id="pastList">
+            <!-- Пример записи -->
+            <tr>
+              <td>Городской тур</td>
+              <td>10.06.2024–12.06.2024</td>
+              <td>Завершено</td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+
+    </div>
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <p>&copy; 2025 «Global Travel». Все права защищены.</p>
+      <nav class="footer-nav">
+        <a href="index.html">Главная</a>
+        <a href="catalog.html">Туры</a>
+        <a href="contacts.html">Контакты</a>
+      </nav>
+    </div>
+  </footer>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', async () => {
+      try {
+        const res = await fetch('/api/auth/status');
+        if (!res.ok) throw new Error('Не удалось получить статус');
+        const { authenticated, username, email } = await res.json();
+        const authLinks = document.getElementById('auth-links');
+
+        if (authenticated) {
+          authLinks.innerHTML = `
+            <a href="user_page.html" class="nav-item active">Профиль</a>
+            <a href="#" id="logoutLink" class="nav-item">Выход</a>
+          `;
+          document.getElementById('logoutLink').addEventListener('click', async e => {
+            e.preventDefault();
+            await fetch('/api/auth/logout', { method: 'POST' });
+            window.location.reload();
+          });
+
+          document.getElementById('profileName').textContent = username;
+          document.getElementById('profileEmail').textContent = email;
+        }
+      } catch (err) {
+        console.warn('Ошибка при получении статуса аутентификации', err);
+      }
+    });
+
+    // TODO: динамическая загрузка бронирований из API
+  </script>
+</body>
+</html>

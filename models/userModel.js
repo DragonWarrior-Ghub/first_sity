@@ -1,30 +1,46 @@
 // models/userModel.js
 const db = require('../config/db');
 
-function createUser(username, email, passwordHash, role = 'volunteer') {
-  return new Promise((resolve, reject) => {
-    const sql = `
-      INSERT INTO participants (username, email, password_hash, role)
-      VALUES (?, ?, ?, ?)
-    `;
-    db.run(sql, [username, email, passwordHash, role], function(err) {
-      if (err) reject(err);
-      else resolve({ id: this.lastID });
-    });
+function createUser(username, email, passwordHash, cb) {
+  const sql = `
+    INSERT INTO users (username, email, password_hash)
+    VALUES (?, ?, ?)
+  `;
+  db.run(sql, [username, email, passwordHash], function(err) {
+    cb(err, this && this.lastID);
   });
 }
 
-function findByEmail(email) {
-  return new Promise((resolve, reject) => {
-    db.get(
-      `SELECT * FROM participants WHERE email = ?`,
-      [email],
-      (err, row) => {
-        if (err) reject(err);
-        else resolve(row);
-      }
-    );
-  });
+function findById(id, cb) {
+  const sql = `
+    SELECT id, username, email, role
+      FROM users
+     WHERE id = ?
+  `;
+  db.get(sql, [id], cb);
 }
 
-module.exports = { createUser, findByEmail };
+function findByUsername(username, cb) {
+  const sql = `
+    SELECT id, username, email, role, password_hash
+      FROM users
+     WHERE username = ?
+  `;
+  db.get(sql, [username], cb);
+}
+
+function findByEmail(email, cb) {
+  const sql = `
+    SELECT id, username, email, role, password_hash
+      FROM users
+     WHERE email = ?
+  `;
+  db.get(sql, [email], cb);
+}
+
+module.exports = {
+  createUser,
+  findById,
+  findByUsername,
+  findByEmail
+};

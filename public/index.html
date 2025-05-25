@@ -3,95 +3,127 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Volunteer Tracker</title>
+  <title>Global Travel — Главная</title>
   <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-  <header class="main-header">
-    <div class="nav-wrapper container">
-      <div class="logo"><h1>Volunteer Tracker</h1></div>
-      <nav class="main-nav">
-        <a href="index.html" class="nav-link active">Главная</a>
-        <a href="events.html" class="nav-link">Мероприятия</a>
-        <a href="chat.html" class="nav-link">Чат</a>
 
-        <!-- Ссылка на кабинет, скрыта пока не залогинен -->
-        <a href="dashboard.html" class="nav-link" id="dashboardLink" style="display:none;">Кабинет</a>
-
-        <!-- По умолчанию показываем «Вход» -->
-        <div id="authLinks" class="login-dropdown">
-          <a href="#" class="nav-link" id="loginToggle">Вход</a>
-          <div class="login-dropdown-content">
-            <a href="login.html">Войти</a>
-            <a href="register.html">Регистрация</a>
-          </div>
-        </div>
+  <!-- === HEADER === -->
+  <header class="site-header">
+    <div class="container header-inner">
+      <a href="index.html" class="logo">Global Travel</a>
+      <nav class="nav">
+        <a href="index.html" class="nav-item active">Главная</a>
+        <a href="catalog.html" class="nav-item">Туры</a>
+        <a href="contacts.html" class="nav-item">Контакты</a>
+        <!-- Здесь будут ссылки для входа/профиля -->
+        <span id="auth-links">
+          <a href="login.html" class="nav-item">Вход</a>
+        </span>
       </nav>
     </div>
   </header>
 
-  <section class="hero-section">
-    <div class="hero-content fadeInSection container">
-      <h2 class="animated-title">Добро пожаловать в Volunteer Tracker</h2>
-      <p>Управляйте волонтерскими мероприятиями, отслеживайте свою активность и получайте достижения за вклад в сообщество</p>
-      <a href="events.html" class="action-btn">Просмотреть мероприятия</a>
+  <!-- === HERO === -->
+  <section class="hero">
+    <div class="overlay"></div>
+    <div class="container hero-content">
+      <h1>Открой мир по-новому</h1>
+      <p>Эксклюзивные маршруты и выгодные предложения только у нас.</p>
+      <a href="catalog.html" class="btn">Смотреть туры</a>
     </div>
   </section>
 
-  <section class="info-section fadeInSection container">
-    <div class="feature-card">
-      <h3>Организаторы</h3>
-      <p>Создавайте и управляйте событиями легко и быстро</p>
-    </div>
-    <div class="feature-card">
-      <h3>Волонтёры</h3>
-      <p>Регистрация, личный кабинет и статистика отработанных часов</p>
-    </div>
-    <div class="feature-card">
-      <h3>Отчёты</h3>
-      <p>Вносите отчёты об активности и следите за своими достижениями</p>
-    </div>
-  </section>
+  <main style="margin-top: 70px;">
+    <!-- === WHY US === -->
+    <section class="why-us">
+      <div class="container">
+        <h2>Почему выбирают нас</h2>
+        <div class="why-grid">
+          <div class="why-card">
+            <img src="images/feature1.png" alt="Гарантия низкой цены">
+            <h3>Гарантия низкой цены</h3>
+            <p>Сравниваем предложения и даём скидки постоянным клиентам.</p>
+          </div>
+          <div class="why-card">
+            <img src="images/feature2.png" alt="Удобный сервис">
+            <h3>Удобный сервис</h3>
+            <p>Закажите тур онлайн за пару минут — мы обо всём позаботимся.</p>
+          </div>
+          <div class="why-card">
+            <img src="images/feature3.png" alt="Поддержка 24/7">
+            <h3>Поддержка 24/7</h3>
+            <p>Наши менеджеры онлайн в любое время — даже в пути.</p>
+          </div>
+        </div>
+      </div>
+    </section>
 
+    <!-- === POPULAR TOURS === -->
+    <section class="popular-tours">
+      <div class="container">
+        <h2>Популярные туры</h2>
+        <div class="tours-grid">
+          <div class="tour-card">
+            <img src="images/image1.jpg" alt="Горный поход">
+            <div class="tour-info">
+              <h4>Горный поход</h4>
+              <p>от 12 000 ₽</p>
+              <a href="tour1.html" class="btn btn--sm">Подробнее</a>
+            </div>
+          </div>
+          <div class="tour-card">
+            <img src="images/image2.jpg" alt="Пляжный отдых">
+            <div class="tour-info">
+              <h4>Пляжный отдых</h4>
+              <p>от 15 500 ₽</p>
+              <a href="tour2.html" class="btn btn--sm">Подробнее</a>
+            </div>
+          </div>
+          <!-- …еще карточки -->
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- === FOOTER === -->
   <footer class="site-footer">
-    <p>&copy; 2025 Volunteer Tracker</p>
+    <div class="container footer-inner">
+      <p>&copy; 2025 «Global Travel». Все права защищены.</p>
+      <nav class="footer-nav">
+        <a href="index.html">Главная</a>
+        <a href="catalog.html">Туры</a>
+        <a href="contacts.html">Контакты</a>
+      </nav>
+    </div>
   </footer>
 
   <script>
-    // Управление отображением «Вход» / «Кабинет»
-    const user = JSON.parse(localStorage.getItem('user') || 'null');
-    const authLinks    = document.getElementById('authLinks');
-    const dashboardLink = document.getElementById('dashboardLink');
+    document.addEventListener('DOMContentLoaded', async () => {
+      try {
+        const res = await fetch('/api/auth/status');
+        if (!res.ok) throw new Error('Нет статуса');
+        const { authenticated, username } = await res.json();
+        const authLinks = document.getElementById('auth-links');
 
-    if (user) {
-      authLinks.style.display     = 'none';
-      dashboardLink.style.display = 'inline-block';
-    } else {
-      authLinks.style.display     = 'inline-flex';
-      dashboardLink.style.display = 'none';
-    }
+        if (authenticated) {
+          // Показываем ссылку на профиль и кнопку «Выход»
+          authLinks.innerHTML = `
+            <a href="user_page.html" class="nav-item">Профиль</a>
+            <a href="#" id="logoutLink" class="nav-item">Выход</a>
+          `;
 
-    // Дропдаун «Вход»
-    document.getElementById('loginToggle').addEventListener('click', e => {
-      e.preventDefault();
-      document.querySelector('.login-dropdown').classList.toggle('show');
-    });
-    window.addEventListener('click', e => {
-      const dd = document.querySelector('.login-dropdown');
-      if (dd && !dd.contains(e.target)) dd.classList.remove('show');
-    });
-
-    // Появление блоков при скролле
-    const faders = document.querySelectorAll('.fadeInSection');
-    const appearOnScroll = new IntersectionObserver((entries, obs) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('appear');
-          obs.unobserve(entry.target);
+          document.getElementById('logoutLink').addEventListener('click', async e => {
+            e.preventDefault();
+            await fetch('/api/auth/logout', { method: 'POST' });
+            window.location.reload();
+          });
         }
-      });
-    }, { threshold: 0.3 });
-    faders.forEach(fader => appearOnScroll.observe(fader));
+      } catch (err) {
+        console.warn('Не удалось получить статус аутентификации', err);
+      }
+    });
   </script>
+
 </body>
 </html>

@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Global Travel — Сравнение туров</title>
+  <link rel="stylesheet" href="css/style.css">
+  <style>
+    main {
+      margin-top: 70px;
+      padding: 2rem 0;
+    }
+    .compare-container {
+      width: 90%;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    table.compare-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 1.5rem;
+    }
+    table.compare-table th,
+    table.compare-table td {
+      border: 1px solid #ddd;
+      padding: 0.75rem;
+      text-align: center;
+    }
+    table.compare-table th {
+      background: var(--color-primary);
+      color: var(--color-white);
+      cursor: pointer;
+      user-select: none;
+    }
+    .btn-sm {
+      display: inline-block;
+      padding: 0.4rem 0.8rem;
+      font-size: 0.9rem;
+      background: var(--color-primary);
+      color: #fff;
+      border-radius: 4px;
+      text-decoration: none;
+    }
+    .btn-print {
+      display: block;
+      margin: 0 auto;
+      padding: 0.75rem 1.5rem;
+      font-size: 1rem;
+      background: var(--color-primary);
+      color: #fff;
+      border-radius: 4px;
+      text-decoration: none;
+    }
+    /* Индикатор сортировки */
+    .sorted-asc::after,
+    .sorted-desc::after {
+      content: '';
+      display: inline-block;
+      margin-left: 0.5em;
+      border: 0.4em solid transparent;
+    }
+    .sorted-asc::after {
+      border-bottom-color: #fff;
+    }
+    .sorted-desc::after {
+      border-top-color: #fff;
+    }
+  </style>
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a href="index.html" class="logo">Global Travel</a>
+      <nav class="nav">
+        <a href="index.html" class="nav-item">Главная</a>
+        <a href="catalog.html" class="nav-item">Туры</a>
+        <a href="contacts.html" class="nav-item">Контакты</a>
+        <span id="auth-links">
+          <a href="login.html" class="nav-item">Вход</a>
+        </span>
+      </nav>
+    </div>
+  </header>
+  <main>
+    <div class="compare-container">
+      <h2>Сравнение туров «Всё включено»</h2>
+      <table class="compare-table" id="compareTable">
+        <thead>
+          <tr>
+            <th>Тур</th>
+            <th>Питание</th>
+            <th>Экскурсии</th>
+            <th>Страховка</th>
+            <th>Участников</th>
+            <th>Транспорт</th>
+            <th data-sort="price">Цена, ₽</th>
+            <th>Подробнее</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Горный поход</td>
+            <td>Завтраки</td>
+            <td>Горные маршруты</td>
+            <td>Медицинская</td>
+            <td>до 10 чел.</td>
+            <td>Автобус + пешком</td>
+            <td class="price">12 000</td>
+            <td><a href="tour1.html" class="btn-sm">Подробнее</a></td>
+          </tr>
+          <tr>
+            <td>Городской тур</td>
+            <td>3-разовое</td>
+            <td>Исторические</td>
+            <td>От несчастных случаев</td>
+            <td>до 15 чел.</td>
+            <td>Поезд + трансфер</td>
+            <td class="price">8 000</td>
+            <td><a href="tour3.html" class="btn-sm">Подробнее</a></td>
+          </tr>
+          <tr>
+            <td>Речное круиз-путешествие</td>
+            <td>Шведский стол</td>
+            <td>Городские + пригородные</td>
+            <td>Морская</td>
+            <td>до 20 чел.</td>
+            <td>Теплоход</td>
+            <td class="price">18 500</td>
+            <td><a href="tour4.html" class="btn-sm">Подробнее</a></td>
+          </tr>
+        </tbody>
+      </table>
+
+      <a href="#" onclick="window.print();" class="btn-print">Распечатать сравнение</a>
+    </div>
+  </main>
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <p>&copy; 2025 «Global Travel». Все права защищены.</p>
+      <nav class="footer-nav">
+        <a href="index.html">Главная</a>
+        <a href="catalog.html">Туры</a>
+        <a href="contacts.html">Контакты</a>
+      </nav>
+    </div>
+  </footer>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', async () => {
+      try {
+        const res = await fetch('/api/auth/status');
+        if (!res.ok) throw new Error();
+        const { authenticated } = await res.json();
+        const authLinks = document.getElementById('auth-links');
+        if (authenticated) {
+          authLinks.innerHTML = `
+            <a href="user_page.html" class="nav-item">Профиль</a>
+            <a href="#" id="logoutLink" class="nav-item">Выход</a>
+          `;
+          document.getElementById('logoutLink').addEventListener('click', async e => {
+            e.preventDefault();
+            await fetch('/api/auth/logout', { method: 'POST' });
+            window.location.reload();
+          });
+        }
+      } catch {};
+
+      // Сортировка по цене
+      const thPrice = document.querySelector('th[data-sort="price"]');
+      const tbody = document.querySelector('#compareTable tbody');
+      let asc = true;
+      thPrice.addEventListener('click', () => {
+        const rows = Array.from(tbody.rows);
+        rows.sort((a, b) => {
+          const getPrice = cell => parseInt(cell.textContent.replace(/\s+/g, ''), 10);
+          const pa = getPrice(a.querySelector('.price'));
+          const pb = getPrice(b.querySelector('.price'));
+          return asc ? pa - pb : pb - pa;
+        });
+        rows.forEach(row => tbody.appendChild(row));
+        thPrice.classList.toggle('sorted-asc', asc);
+        thPrice.classList.toggle('sorted-desc', !asc);
+        asc = !asc;
+      });
+    });
+  </script>
+</body>
+</html>

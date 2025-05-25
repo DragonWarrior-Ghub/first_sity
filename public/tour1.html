@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="ру">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Global Travel — Горный поход</title>
+    <link rel="stylesheet" href="css/style.css" />
+    <style>
+      .hero-content h1 {
+        font-size: 3.5rem;
+      }
+      .hero-subtitle {
+        font-size: 1.25rem;
+        margin: 1rem 0;
+      }
+      .hero-cta {
+        font-size: 1rem;
+        font-weight: bold;
+        margin-bottom: 2rem;
+      }
+      .section-divider {
+        border: none;
+        height: 2px;
+        background: var(--color-primary);
+        width: 60px;
+        margin: 2rem auto;
+      }
+      .dest {
+        background-color: #e0e0e0;
+        color: #333;
+        font-size: 0.85rem;
+        padding: 2px 6px;
+        border-radius: 4px;
+        display: inline-block;
+      }
+      .modal-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.6);
+        display: none;
+        justify-content: center;
+        align-items: center;
+        z-index: 1000;
+      }
+      .modal {
+        background-color: #fff;
+        padding: 2rem;
+        border-radius: 10px;
+        width: 90%;
+        max-width: 500px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        font-family: sans-serif;
+      }
+      .modal h2 {
+        margin-top: 0;
+        color: #333;
+        font-size: 1.5rem;
+      }
+      .modal form {
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+      }
+      .modal label {
+        font-weight: bold;
+        margin-bottom: 0.25rem;
+      }
+      .modal input,
+      .modal select,
+      .modal textarea {
+        padding: 0.5rem;
+        border: 1px solid #ccc;
+        border-radius: 6px;
+        width: 100%;
+        box-sizing: border-box;
+      }
+      .modal textarea {
+        resize: vertical;
+        min-height: 80px;
+      }
+      .modal .radio-group {
+        display: flex;
+        gap: 1rem;
+      }
+      .modal .radio-group label {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        font-weight: normal;
+        cursor: pointer;
+      }
+      .modal .form-buttons {
+        display: flex;
+        justify-content: space-between;
+        margin-top: 1.5rem;
+      }
+      .modal .btn {
+        background: var(--color-primary, #333);
+        color: #fff;
+        padding: 0.6rem 1.2rem;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        text-align: center;
+        font-weight: bold;
+      }
+      .modal .btn:hover {
+        opacity: 0.9;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Модальное окно бронирования -->
+    <div class="modal-overlay" id="bookingModal">
+      <div class="modal">
+        <h2>Бронирование тура</h2>
+        <form id="bookingForm">
+          <div>
+            <label for="fullName">ФИО</label>
+            <input type="text" id="fullName" name="fullName" required />
+          </div>
+          <div>
+            <label for="emailBooking">Email</label>
+            <input type="email" id="emailBooking" name="email" required />
+          </div>
+          <div>
+            <label for="phone">Телефон</label>
+            <input type="tel" id="phone" name="phone" required />
+          </div>
+          <div>
+            <label for="people">Количество человек</label>
+            <select id="people" name="people" required>
+              <option value="" disabled selected>Выберите</option>
+              <option>1</option>
+              <option>2</option>
+              <option>3</option>
+              <option>4</option>
+              <option>5+</option>
+            </select>
+          </div>
+          <div>
+            <label>Питание</label>
+            <div class="radio-group">
+              <label><input type="radio" name="meal" value="Стандартное" required /> Стандартное</label>
+              <label><input type="radio" name="meal" value="Вегетарианское" /> Вегетарианское</label>
+              <label><input type="radio" name="meal" value="Без глютена" /> Без глютена</label>
+            </div>
+          </div>
+          <div>
+            <label for="comment">Дополнительная информация</label>
+            <textarea id="comment" name="comment" placeholder="Уточнения, пожелания и т.д."></textarea>
+          </div>
+          <div class="form-buttons">
+            <button type="button" class="btn" onclick="closeModal()">Отмена</button>
+            <button type="submit" class="btn">Подтвердить</button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <!-- HEADER -->
+    <header class="site-header">
+      <div class="container header-inner">
+        <a href="index.html" class="logo">Global Travel</a>
+        <nav class="nav">
+          <a href="index.html" class="nav-item">Главная</a>
+          <a href="catalog.html" class="nav-item active">Туры</a>
+          <a href="contacts.html" class="nav-item">Контакты</a>
+          <span id="auth-links">
+            <a href="login.html" class="nav-item">Вход</a>
+          </span>
+        </nav>
+      </div>
+    </header>
+
+    <!-- HERO BANNER -->
+    <section class="hero" style="margin-top: 70px">
+      <div
+        class="overlay"
+        style="background: url('images/mountain-tour.jpg') center/cover no-repeat;"
+      ></div>
+      <div class="container hero-content">
+        <h1>Горный поход</h1>
+        <p>5 дней незабываемого приключения среди высоких вершин и лазурных озёр</p>
+        <p class="hero-subtitle">Почувствуйте свободу и единение с непокорённой природой</p>
+        <p class="hero-cta">Присоединяйтесь к нам — места ограничены!</p>
+      </div>
+    </section>
+
+    <!-- TOUR DETAILS -->
+    <main>
+      <section class="tour-detail">
+        <div class="container" style="padding: 4rem 0">
+          <h2>Описание тура</h2>
+          <p>
+            Представьте: на рассвете вы встречаете золотые блики солнца,
+            пробивающегося сквозь облака над вершинами. Свежий горный воздух
+            наполняет лёгкие, а внизу — кристально чистые озёра и шумящие ели.
+          </p>
+          <p>
+            Вас сопровождает опытный гид, который обеспечит безопасность,
+            расскажет легенды местных народов и покажет лучшие фото-точки.
+            Ночёвки в современных кемпингах с горячим чаем помогут восстановить
+            силы перед новым восхождением.
+          </p>
+
+          <hr class="section-divider" />
+
+          <h3>Что вас ждёт</h3>
+          <ul>
+            <li>Пикник у высокогорного озера с видом на заснеженные хребты</li>
+            <li>Подъём на обзорную площадку на высоте 2 500 м</li>
+            <li>Ночное небо без городского сияния — миллиард звёзд над головой</li>
+            <li>Знакомство с традициями альпийских общин и дегустация местных блюд</li>
+          </ul>
+
+          <hr class="section-divider" />
+
+          <h3>Маршрут</h3>
+          <ol>
+            <li><strong>День 1:</strong> Сбор группы, короткий переход 5 км до базы.</li>
+            <li><strong>День 2:</strong> Переход к перевалу, остановка у горного водопада.</li>
+            <li><strong>День 3:</strong> Прогулка по плато и купание в озере.</li>
+            <li><strong>День 4:</strong> Спуск в альпийскую деревушку, мастер-класс по готовке.</li>
+            <li><strong>День 5:</strong> Возвращение в базу, церемония закрытия и обмен контактами.</li>
+          </ol>
+
+          <hr class="section-divider" />
+
+          <h3>Включено в стоимость</h3>
+          <ul>
+            <li>Перелёт и трансфер на микроавтобусе</li>
+            <li>Проживание в палатках и спальниках</li>
+            <li>Трёхразовое питание + горячие напитки</li>
+            <li>Услуги гида и профессионального повара</li>
+            <li>Фотоотчёт и памятные сувениры</li>
+          </ul>
+
+          <hr class="section-divider" />
+
+          <h3>Рекомендуемая экипировка</h3>
+          <ul>
+            <li>Треккинговые ботинки и непромокаемая куртка</li>
+            <li>Тёплый флис и термобельё</li>
+            <li>Рюкзак 30–40 л, бутылка для воды и фонарик</li>
+            <li>Солнцезащитные очки и головной убор</li>
+          </ul>
+
+          <hr class="section-divider" />
+
+          <h3>Включенные направления</h3>
+          <span class="dest">туры на природе</span>
+          <span class="dest">оздоровительные туры</span>
+          <span class="dest">Альпы</span>
+          <span class="dest">семейный отдых</span>
+
+          <div
+            class="tour-meta"
+            style="display: flex; flex-wrap: wrap; gap: 2rem; margin: 2rem 0"
+          >
+            <p><strong>Участников:</strong> до 8 человек</p>
+            <p><strong>Транспорт:</strong> Авиа + трансфер на микроавтобусе</p>
+            <p><strong>Цена:</strong> от 12 000 ₽</p>
+            <p><strong>Даты:</strong> 27.05.2025–01.06.2025</p>
+          </div>
+
+          <div style="text-align: center; margin-bottom: 2rem">
+            <a href="#" id="openBooking" class="btn">Забронировать</a>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="site-footer">
+      <div class="container footer-inner">
+        <p>&copy; 2025 «Global Travel». Все права защищены.</p>
+        <nav class="footer-nav">
+          <a href="index.html">Главная</a>
+          <a href="catalog.html">Туры</a>
+          <a href="contacts.html">Контакты</a>
+        </nav>
+      </div>
+    </footer>
+
+    <script>
+      // --- Аутентификация ---
+      document.addEventListener('DOMContentLoaded', async () => {
+        try {
+          const res = await fetch('/api/auth/status');
+          if (!res.ok) throw new Error('Не удалось получить статус');
+          const { authenticated } = await res.json();
+          const authLinks = document.getElementById('auth-links');
+          if (authenticated) {
+            authLinks.innerHTML = `
+              <a href="user_page.html" class="nav-item">Профиль</a>
+              <a href="#" id="logoutLink" class="nav-item">Выход</a>
+            `;
+            document
+              .getElementById('logoutLink')
+              .addEventListener('click', async e => {
+                e.preventDefault();
+                await fetch('/api/auth/logout', { method: 'POST' });
+                window.location.reload();
+              });
+          }
+        } catch (err) {
+          console.warn('Не удалось получить статус аутентификации', err);
+        }
+      });
+
+      // --- Модалка бронирования ---
+      const bookingModal = document.getElementById('bookingModal');
+      const bookingForm = document.getElementById('bookingForm');
+      document
+        .getElementById('openBooking')
+        .addEventListener('click', e => {
+          e.preventDefault();
+          bookingModal.style.display = 'flex';
+        });
+      function closeModal() {
+        bookingModal.style.display = 'none';
+      }
+      bookingForm.addEventListener('submit', e => {
+        e.preventDefault();
+        alert('Заявка отправлена! Спасибо за бронирование.');
+        bookingForm.reset();
+        closeModal();
+      });
+      window.addEventListener('click', e => {
+        if (e.target === bookingModal) closeModal();
+      });
+    </script>
+  </body>
+</html>

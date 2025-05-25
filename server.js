@@ -1,26 +1,30 @@
 // server.js
-require('dotenv').config();
-const path    = require('path');
 const express = require('express');
-const cors    = require('cors');
-
-require('./config/db'); // инициализируем базу
-
-const authRoutes  = require('./routes/authRoutes');
-const eventRoutes = require('./routes/eventRoutes');
-const chatRoutes  = require('./routes/chatRoutes');
+const session = require('express-session');
+const SQLiteStore = require('connect-sqlite3')(session);
+const path = require('path');
 
 const app = express();
-app.use(cors());
+
+// Парсеры
 app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+
+// Сессии
+app.use(session({
+  store: new SQLiteStore({ db: 'sessions.sqlite', dir: './DB' }),
+  secret: 'ваш_секрет_для_сессий',
+  resave: false,
+  saveUninitialized: false,
+  cookie: { maxAge: 86400000 }
+}));
+
+// Роуты аутентификации (включая /status)
+app.use('/api/auth', require('./routes/auth'));
+
+// Отдача статики
 app.use(express.static(path.join(__dirname, 'public')));
 
-// API
-app.use('/api', authRoutes);
-app.use('/api', eventRoutes);
-app.use('/api', chatRoutes);
-
+// Запуск
 const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => {
-  console.log(`Server running at http://localhost:${PORT}`);
-});
+app.listen(PORT, () => console.log(`🚀 Server on http://localhost:${PORT}`));
