@@ -1,46 +1,60 @@
 // models/userModel.js
-const db = require('../config/db');
+const path     = require('path');
+const Database = require('better-sqlite3');
 
-function createUser(username, email, passwordHash, cb) {
-  const sql = `
-    INSERT INTO users (username, email, password_hash)
-    VALUES (?, ?, ?)
-  `;
-  db.run(sql, [username, email, passwordHash], function(err) {
-    cb(err, this && this.lastID);
-  });
+const dbPath = path.join(__dirname, '../DB/DB_users');
+console.log('Opening User DB at', dbPath);
+const db     = new Database(dbPath);
+
+// Создать пользователя
+function createUser(fullName, email, passwordHash, phone) {
+  const stmt = db.prepare(`
+    INSERT INTO users (full_name, username, email, password_hash, phone)
+    VALUES (?, ?, ?, ?, ?)
+  `);
+  const info = stmt.run(fullName, email, email, passwordHash, phone);
+  return info.lastInsertRowid;
 }
 
-function findById(id, cb) {
-  const sql = `
-    SELECT id, username, email, role
+// Найти по username или email
+function findByIdentifier(identifier) {
+  return db
+    .prepare(`SELECT * FROM users WHERE username = ? OR email = ?`)
+    .get(identifier, identifier);
+}
+
+// Получить профиль без пароля
+function getById(id) {
+  return db
+    .prepare(`
+      SELECT
+        id,
+        full_name  AS fullName,
+        email,
+        phone,
+        created_at
       FROM users
+      WHERE id = ?
+    `)
+    .get(id);
+}
+
+// Обновить профиль
+function updateById(id, fullName, email, phone) {
+  const stmt = db.prepare(`
+    UPDATE users
+       SET full_name = ?,
+           email     = ?,
+           phone     = ?
      WHERE id = ?
-  `;
-  db.get(sql, [id], cb);
-}
-
-function findByUsername(username, cb) {
-  const sql = `
-    SELECT id, username, email, role, password_hash
-      FROM users
-     WHERE username = ?
-  `;
-  db.get(sql, [username], cb);
-}
-
-function findByEmail(email, cb) {
-  const sql = `
-    SELECT id, username, email, role, password_hash
-      FROM users
-     WHERE email = ?
-  `;
-  db.get(sql, [email], cb);
+  `);
+  stmt.run(fullName, email, phone, id);
+  return getById(id);
 }
 
 module.exports = {
   createUser,
-  findById,
-  findByUsername,
-  findByEmail
+  findByIdentifier,
+  getById,
+  updateById,    // <-- обязательно экспортируем
 };

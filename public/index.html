@@ -2,128 +2,238 @@
 <html lang="ru">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Global Travel — Главная</title>
+  <title>Золотая середина — Главная</title>
   <link rel="stylesheet" href="css/style.css">
+  <style>
+    /* Таблицы внутри контента */
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 15px 0;
+    }
+    table, th, td {
+      border: 1px solid #333;
+    }
+    th, td {
+      padding: 8px;
+      text-align: center;
+    }
+
+    /* Секция отзывов */
+    #comments-container {
+      margin-top: 40px;
+    }
+    .comment {
+      border-bottom: 1px solid #ccc;
+      padding: 10px 0;
+    }
+    .comment h4 {
+      margin: 0 0 5px;
+    }
+    .comment p {
+      margin: 5px 0;
+    }
+
+    /* Стили слайдера на главной */
+    #main-slider {
+      position: relative;
+      width: 100%;
+      max-width: 800px;
+      margin: 15px 0;
+      overflow: hidden;
+    }
+    #main-slider .slides {
+      display: flex;
+      transition: transform 0.3s ease;
+    }
+    #main-slider .slides img {
+      width: 100%;
+      flex-shrink: 0;
+    }
+    #main-slider .nav-btn {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      background: rgba(255,255,255,0.7);
+      border: none;
+      font-size: 2rem;
+      padding: 0 10px;
+      cursor: pointer;
+      user-select: none;
+    }
+    #main-slider .nav-btn.prev { left: 10px; }
+    #main-slider .nav-btn.next { right: 10px; }
+  </style>
 </head>
 <body>
 
-  <!-- === HEADER === -->
-  <header class="site-header">
-    <div class="container header-inner">
-      <a href="index.html" class="logo">Global Travel</a>
-      <nav class="nav">
-        <a href="index.html" class="nav-item active">Главная</a>
-        <a href="catalog.html" class="nav-item">Туры</a>
-        <a href="contacts.html" class="nav-item">Контакты</a>
-        <!-- Здесь будут ссылки для входа/профиля -->
-        <span id="auth-links">
-          <a href="login.html" class="nav-item">Вход</a>
-        </span>
-      </nav>
-    </div>
+  <header>
+    <img class="logo" src="images/logo.png" alt="Логотип">
+    <h1>Туроператор «Золотая середина»</h1>
+    <p>Добро пожаловать в мир удивительных путешествий!</p>
   </header>
 
-  <!-- === HERO === -->
-  <section class="hero">
-    <div class="overlay"></div>
-    <div class="container hero-content">
-      <h1>Открой мир по-новому</h1>
-      <p>Эксклюзивные маршруты и выгодные предложения только у нас.</p>
-      <a href="catalog.html" class="btn">Смотреть туры</a>
-    </div>
-  </section>
+  <nav class="main-menu">
+    <ul>
+      <li><a href="index.html">Главная</a></li>
+      <li><a href="catalog.html">Каталог</a></li>
+      <li><a href="contacts.html">Контакты</a></li>
+      <li><a href="login.html">Кабинет</a></li>
+    </ul>
+  </nav>
 
-  <main style="margin-top: 70px;">
-    <!-- === WHY US === -->
-    <section class="why-us">
-      <div class="container">
-        <h2>Почему выбирают нас</h2>
-        <div class="why-grid">
-          <div class="why-card">
-            <img src="images/feature1.png" alt="Гарантия низкой цены">
-            <h3>Гарантия низкой цены</h3>
-            <p>Сравниваем предложения и даём скидки постоянным клиентам.</p>
-          </div>
-          <div class="why-card">
-            <img src="images/feature2.png" alt="Удобный сервис">
-            <h3>Удобный сервис</h3>
-            <p>Закажите тур онлайн за пару минут — мы обо всём позаботимся.</p>
-          </div>
-          <div class="why-card">
-            <img src="images/feature3.png" alt="Поддержка 24/7">
-            <h3>Поддержка 24/7</h3>
-            <p>Наши менеджеры онлайн в любое время — даже в пути.</p>
-          </div>
-        </div>
+  <div class="main">
+
+    <aside class="sidebar-left">
+      <ul>
+        <li><a href="#company">О компании</a></li>
+        <li><a href="#specialists">Таблица ради таблицы</a></li>
+        <li><a href="#tip_location">Советы по выбору места</a></li>
+        <li><a href="#tip_program">Советы по насыщенности программы</a></li>
+        <li><a href="#tip_budget">Советы по планированию бюджета</a></li>
+      </ul>
+    </aside>
+
+    <section class="content">
+      <h2 id="company">О компании</h2>
+      <p>Туроператор «Золотая середина» основан в 2010 году группой заядлых путешественников и профессиональных организаторов туров. За более чем 10 000 туристов...</p>
+      <p>Наша миссия — находить золотую середину между качеством сервиса и ценой тура. Мы тщательно проверяем все партнерские отели, транспортные компании и гидов, чтобы каждый клиент мог получить максимум впечатлений без лишних рисков.</p>
+
+      <!-- Слайдер вместо статической картинки -->
+      <div id="main-slider">
+        <div class="slides"></div>
+        <button class="nav-btn prev">‹</button>
+        <button class="nav-btn next">›</button>
+      </div>
+
+      <h2 id="specialists">Таблица ради таблицы</h2>
+      <table>
+        <tr>
+          <td rowspan="2">Общая строка</td>
+          <td>текст</td>
+          <td>текст</td>
+        </tr>
+        <tr>
+          <td>текст</td>
+          <td>текст</td>
+        </tr>
+        <tr>
+          <td>текст</td>
+          <td colspan="2">общий столбец</td>
+        </tr>
+      </table>
+
+      <h2 id="tip_location">Советы по выбору места</h2>
+      <p>При выборе направления учитывайте:</p>
+      <ul>
+        <li><strong>Цель поездки</strong>: отдых, экстрим, культурные программы или гастрономические туры.</li>
+        <li><strong>Климат</strong>: если вы не любите жару — забудьте о субэкваториальных широтах летом.</li>
+        <li><strong>Безопасность</strong>: изучите отзывы и официальные рекомендации МИДа.</li>
+        <li><strong>Бюджет</strong>: сравните средние цены на перелёт и проживание в разных регионах.</li>
+        <li><strong>Визовый режим</strong>: одни страны требуют сложные визы, другие — только электронную регистрацию.</li>
+      </ul>
+
+      <h2 id="tip_program">Советы по насыщенности программы</h2>
+      <p>Переусердствовать с экскурсиями так же легко, как и проспать лучшую часть отдыха. Мы рекомендуем:</p>
+      <ol>
+        <li>Планировать не более <strong>3–4 активных мероприятий</strong> в день.</li>
+        <li>Оставлять <strong>около 2–3 часов «свободного времени»</strong> на импровизации.</li>
+        <li>Чередовать «достопримечательности» и «побочные» активности: прогулки, шопинг, дегустации.</li>
+        <li>Уточнять расписание транспорта заранее, чтобы не тратить полдня на ожидание.</li>
+        <li>Не забывать про <strong>технические перерывы</strong>: завтрак, обед, отдых в отеле.</li>
+      </ol>
+
+      <h2 id="tip_budget">Советы по планированию бюджета</h2>
+      <p>Чтобы ваш отпуск не обернулся финансовым сюрпризом:</p>
+      <ul>
+        <li>Составьте детальный «план расходов»: перелёт, проживание, питание, трансферы, развлечения.</li>
+        <li>Поставьте <strong>резерв 15–20%</strong> от общей суммы «на всякий случай».</li>
+        <li>Используйте <strong>кэшбэк-сервисы</strong> и акции авиакомпаний для снижения стоимости билетов.</li>
+        <li>Проверяйте курсы валют и берите с собой <strong>несколько «запасных» валют</strong> (наличные + карта).</li>
+        <li>Заранее покупайте билеты на главные достопримечательности — часто они дешевле онлайн.</li>
+      </ul>
+
+      <!-- Секция отзывов -->
+      <div id="comments-container">
+        <h2>Отзывы пользователей</h2>
       </div>
     </section>
 
-    <!-- === POPULAR TOURS === -->
-    <section class="popular-tours">
-      <div class="container">
-        <h2>Популярные туры</h2>
-        <div class="tours-grid">
-          <div class="tour-card">
-            <img src="images/image1.jpg" alt="Горный поход">
-            <div class="tour-info">
-              <h4>Горный поход</h4>
-              <p>от 12 000 ₽</p>
-              <a href="tour1.html" class="btn btn--sm">Подробнее</a>
-            </div>
-          </div>
-          <div class="tour-card">
-            <img src="images/image2.jpg" alt="Пляжный отдых">
-            <div class="tour-info">
-              <h4>Пляжный отдых</h4>
-              <p>от 15 500 ₽</p>
-              <a href="tour2.html" class="btn btn--sm">Подробнее</a>
-            </div>
-          </div>
-          <!-- …еще карточки -->
-        </div>
-      </div>
-    </section>
-  </main>
+    <aside class="sidebar-right">
+      <a href="catalog.html">
+        <img src="images/image6.png" alt="Перейти в каталог" style="width:100%; cursor:pointer; margin-top:20px;">
+      </a>
+    </aside>
+  </div>
 
-  <!-- === FOOTER === -->
-  <footer class="site-footer">
-    <div class="container footer-inner">
-      <p>&copy; 2025 «Global Travel». Все права защищены.</p>
-      <nav class="footer-nav">
-        <a href="index.html">Главная</a>
-        <a href="catalog.html">Туры</a>
-        <a href="contacts.html">Контакты</a>
-      </nav>
-    </div>
+  <footer>
+    <p><a href="PK.pdf" id="privacyLink">Политика конфиденциальности</a></p>
+    © 2025 «Золотая середина». Все права защищены.
   </footer>
 
+  <!-- Слайдерный JS -->
   <script>
-    document.addEventListener('DOMContentLoaded', async () => {
-      try {
-        const res = await fetch('/api/auth/status');
-        if (!res.ok) throw new Error('Нет статуса');
-        const { authenticated, username } = await res.json();
-        const authLinks = document.getElementById('auth-links');
+    (function(){
+      const sliderImages = [
+        'images/image1.jpg',
+        'images/image3.jpg',
+        'images/image5.jpg'
+      ];
+      const slider = document.getElementById('main-slider');
+      const slides = slider.querySelector('.slides');
+      const btnPrev = slider.querySelector('.prev');
+      const btnNext = slider.querySelector('.next');
 
-        if (authenticated) {
-          // Показываем ссылку на профиль и кнопку «Выход»
-          authLinks.innerHTML = `
-            <a href="user_page.html" class="nav-item">Профиль</a>
-            <a href="#" id="logoutLink" class="nav-item">Выход</a>
-          `;
+      sliderImages.forEach(src => {
+        const img = document.createElement('img');
+        img.src = src;
+        slides.appendChild(img);
+      });
 
-          document.getElementById('logoutLink').addEventListener('click', async e => {
-            e.preventDefault();
-            await fetch('/api/auth/logout', { method: 'POST' });
-            window.location.reload();
-          });
-        }
-      } catch (err) {
-        console.warn('Не удалось получить статус аутентификации', err);
+      let current = 0, count = sliderImages.length;
+      function update() {
+        slides.style.transform = `translateX(-${current * 100}%)`;
       }
+      btnPrev.addEventListener('click', ()=> {
+        current = (current - 1 + count) % count; update();
+      });
+      btnNext.addEventListener('click', ()=> {
+        current = (current + 1) % count; update();
+      });
+    })();
+  </script>
+
+  <!-- Политика в новом окне -->
+  <script>
+    document.getElementById('privacyLink').addEventListener('click', function(e) {
+      e.preventDefault();
+      window.open('PK.pdf','privWin','width=800,height=600,scrollbars=yes');
     });
   </script>
 
+  <!-- Загрузка отзывов -->
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const container = document.getElementById('comments-container');
+      async function loadComments() {
+        container.innerHTML = '<h2>Отзывы пользователей</h2>';
+        try {
+          const res = await fetch('/api/comments');
+          const comments = await res.json();
+          comments.forEach(c => {
+            const div = document.createElement('div');
+            div.className = 'comment';
+            const date = new Date(c.createdAt);
+            const fmt = isNaN(date) ? '' : ` (${date.toLocaleString()})`;
+            div.innerHTML = `<h4>${c.fullName}${fmt}</h4><p>${c.comment}</p>`;
+            container.appendChild(div);
+          });
+        } catch {
+          container.innerHTML += '<p>Не удалось загрузить отзывы.</p>';
+        }
+      }
+      loadComments();
+    });
+  </script>
 </body>
 </html>

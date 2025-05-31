@@ -2,148 +2,129 @@
 <html lang="ru">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Global Travel — Контакты</title>
+  <title>Золотая середина — Контакты</title>
   <link rel="stylesheet" href="css/style.css">
   <style>
-    .contact-container {
-      margin-top: 70px;
-      padding: 2rem 0;
-      width: 90%;
-      max-width: 800px;
-      margin-left: auto;
-      margin-right: auto;
+    header {
+      position: relative;
+      padding-left: 80px;  /* Отступ для текста, чтобы не накладывался на логотип */
+      text-align: center;   /* Центрируем заголовок */
     }
-    .contact-info {
-      margin-bottom: 2rem;
-    }
-    .contact-info p {
-      margin: 0.5rem 0;
-      font-size: 1rem;
-    }
-    .contact-form {
-      display: flex;
-      flex-direction: column;
-      gap: 1rem;
-    }
-    .contact-form label {
-      font-weight: bold;
-    }
-    .contact-form input,
-    .contact-form textarea {
-      padding: 0.5rem;
-      border: 1px solid #ccc;
-      border-radius: 6px;
-      width: 100%;
-      box-sizing: border-box;
-    }
-    .contact-form textarea {
-      resize: vertical;
-      min-height: 120px;
-    }
-    .contact-form .btn {
-      align-self: flex-start;
-      background: var(--color-primary,#333);
-      color: #fff;
-      padding: 0.6rem 1.2rem;
-      border: none;
-      border-radius: 5px;
-      cursor: pointer;
-      text-decoration: none;
-      font-weight: bold;
-    }
-    .section-divider {
-      border: none;
-      height: 2px;
-      background: var(--color-primary,#333);
-      width: 60px;
-      margin: 2rem auto;
+    header img {
+      position: absolute;
+      top: 0;
+      left: 0;
+      height: 100%;
+      width: auto;
     }
   </style>
 </head>
 <body>
-  <header class="site-header">
-    <div class="container header-inner">
-      <a href="index.html" class="logo">Global Travel</a>
-      <nav class="nav">
-        <a href="index.html" class="nav-item">Главная</a>
-        <a href="catalog.html" class="nav-item">Туры</a>
-        <a href="contacts.html" class="nav-item active">Контакты</a>
-        <span id="auth-links">
-          <a href="login.html" class="nav-item">Вход</a>
-        </span>
-      </nav>
-    </div>
+
+  <header>
+    <img src="images/logo.png" alt="Логотип">
+    <h1>Напишите нам</h1>
   </header>
 
-  <main class="contact-container">
-    <h2>Свяжитесь с нами</h2>
-    <hr class="section-divider">
+  <nav class="main-menu">
+    <ul>
+      <li><a href="index.html">Главная</a></li>
+      <li><a href="catalog.html">Каталог</a></li>
+      <li><a href="contacts.html">Контакты</a></li>
+      <li><a href="login.html">Кабинет</a></li>
+    </ul>
+  </nav>
 
-    <section class="contact-info">
-      <p><strong>Адрес:</strong> ул. Путешественников, 10, Москва, Россия</p>
-      <p><strong>Телефон:</strong> +7 (495) 123-45-67</p>
-      <p><strong>Email:</strong> support@globaltravel.ru</p>
-      <p><strong>Часы работы:</strong> Пн–Пт 09:00–18:00</p>
-    </section>
+  <div class="main">
 
-    <section class="contact-form-section">
-      <h3>Отправить сообщение</h3>
-      <form class="contact-form" id="contactForm">
-        <div>
-          <label for="name">Ваше имя</label>
-          <input type="text" id="name" name="name" required>
-        </div>
-        <div>
-          <label for="email">Ваш Email</label>
-          <input type="email" id="email" name="email" required>
-        </div>
-        <div>
-          <label for="message">Сообщение</label>
-          <textarea id="message" name="message" required></textarea>
-        </div>
-        <button type="submit" class="btn">Отправить</button>
+    <aside class="sidebar-left">
+      <ul>
+        <li><a href="#form">Обратная связь</a></li>
+        <li><a href="#address">Контактные данные</a></li>
+      </ul>
+    </aside>
+
+    <section class="content">
+
+      <h2 id="form">Форма обратной связи</h2>
+      <form id="inquiryForm">
+        <label>Имя:<br>
+          <input type="text" name="name" required>
+        </label><br>
+        <label>Email:<br>
+          <input type="email" name="email" required>
+        </label><br>
+        <label>Тема:<br>
+          <input type="text" name="subject">
+        </label><br>
+        <label>Сообщение:<br>
+          <textarea name="message" rows="5"></textarea>
+        </label><br>
+        <label>Телефон:<br>
+          <input type="tel" name="phone">
+        </label><br>
+        <button type="submit">Отправить</button>
       </form>
-    </section>
-  </main>
 
-  <footer class="site-footer">
-    <div class="container footer-inner">
-      <p>&copy; 2025 «Global Travel». Все права защищены.</p>
-      <nav class="footer-nav">
-        <a href="index.html">Главная</a>
-        <a href="catalog.html">Туры</a>
-        <a href="contacts.html">Контакты</a>
-      </nav>
-    </div>
-  </footer>
+      <hr>
+
+      <h2 id="address">Контактные данные</h2>
+      <p><strong>Телефон:</strong> <a href="tel:+71234567890">+7 123 456-78-90</a></p>
+      <p><strong>Адрес:</strong> г. Москва, ул. Путешественников, 5</p>
+      <p><strong>Email:</strong> <a href="mailto:info@goldmid.ru">info@goldmid.ru</a></p>
+
+      <iframe
+        src="https://yandex.ru/map-widget/v1/-/CHb~NMMR"
+        width="100%" height="300" frameborder="0" allowfullscreen>
+      </iframe>
+
+    </section>
+
+    <aside class="sidebar-right">
+    </aside>
+
+  </div>
+
+<footer>
+  <p>
+    <a href="PK.pdf" id="privacyLink">Политика конфиденциальности</a>
+  </p>
+  © 2025 «Золотая середина». Все права защищены.
+</footer>
+
+<script>
+  document.getElementById('privacyLink').addEventListener('click', function(e) {
+    e.preventDefault();
+    window.open(
+      'PK.pdf',                // URL
+      'PrivacyPolicyWindow',   // имя окна
+      'width=800,height=600,' + // размер
+      'toolbar=no,location=no,' +
+      'status=no,menubar=no,' +
+      'scrollbars=yes,resizable=yes'
+    );
+  });
+</script>
 
   <script>
-    document.addEventListener('DOMContentLoaded', async () => {
+    document.getElementById('inquiryForm').addEventListener('submit', async function(e) {
+      e.preventDefault();
+      const data = Object.fromEntries(new FormData(this));
       try {
-        const res = await fetch('/api/auth/status');
-        if (!res.ok) throw new Error();
-        const { authenticated } = await res.json();
-        const authLinks = document.getElementById('auth-links');
-        if (authenticated) {
-          authLinks.innerHTML = `
-            <a href="user_page.html" class="nav-item">Профиль</a>
-            <a href="#" id="logoutLink" class="nav-item">Выход</a>
-          `;
-          document.getElementById('logoutLink').addEventListener('click', async e => {
-            e.preventDefault();
-            await fetch('/api/auth/logout', { method: 'POST' });
-            window.location.reload();
-          });
+        const res = await fetch('/api/inquiries', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(data)
+        });
+        if (!res.ok) {
+          const err = await res.json();
+          throw new Error(err.error || 'Ошибка отправки');
         }
-      } catch {}
-
-      // Обработка формы отправки сообщения
-      document.getElementById('contactForm').addEventListener('submit', e => {
-        e.preventDefault();
         alert('Ваше сообщение отправлено!');
-        e.target.reset();
-      });
+        this.reset();
+      } catch (err) {
+        alert('Ошибка: ' + err.message);
+      }
     });
   </script>
 </body>

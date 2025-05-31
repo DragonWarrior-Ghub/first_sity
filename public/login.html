@@ -3,170 +3,269 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Global Travel — Вход / Регистрация</title>
+  <title>Личный кабинет</title>
   <link rel="stylesheet" href="css/style.css">
+  <style>
+    .hidden { display: none; }
+    .message { margin: 1rem 0; padding: 0.5rem; border-radius: 4px; }
+    .message.error { background: #fdd; color: #900; }
+    .message.success { background: #dfd; color: #090; }
+
+    header {
+      position: relative;
+      padding-left: 80px;
+      text-align: center;
+    }
+    header img {
+      position: absolute;
+      top: 0;
+      left: 0;
+      height: 100%;
+      width: auto;
+    }
+    form label { display: block; margin-bottom: 0.5rem; }
+    form input[type="text"],
+    form input[type="email"],
+    form input[type="password"],
+    form input[type="tel"] {
+      width: 100%;
+      padding: 8px;
+      margin-bottom: 1rem;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+    }
+    .checkbox-group { display: flex; align-items: center; margin-bottom: 1rem; }
+    .checkbox-group input { margin-right: 0.5rem; }
+    button { padding: 10px 20px; background: #ff9500; color: #fff; border: none; border-radius: 4px; cursor: pointer; }
+    button:hover { background: #e08400; }
+    /* Отступ между кнопками в аккаунте */
+    .account-buttons button { margin-right: 10px; margin-bottom: 10px; }
+  </style>
 </head>
 <body>
 
-  <!-- HEADER -->
-  <header class="site-header">
-    <div class="container header-inner">
-      <a href="index.html" class="logo">Global Travel</a>
-      <nav class="nav">
-        <a href="index.html" class="nav-item">Главная</a>
-        <a href="catalog.html" class="nav-item">Туры</a>
-        <a href="contacts.html" class="nav-item">Контакты</a>
-        <a href="login.html" class="nav-item active">Вход</a>
-      </nav>
-    </div>
+  <header>
+    <img src="images/logo.png" alt="Логотип">
+    <h1>Личный кабинет</h1>
   </header>
 
-  <!-- LOGIN / REGISTER -->
-  <main class="login-section">
-    <div class="login-card">
-      
-      <!-- Таб-переключатель -->
-      <div class="tab-header">
-        <button class="tab-btn active" data-tab="login">Вход</button>
-        <button class="tab-btn" data-tab="register">Регистрация</button>
+  <nav class="main-menu">
+    <ul>
+      <li><a href="index.html">Главная</a></li>
+      <li><a href="catalog.html">Каталог</a></li>
+      <li><a href="contacts.html">Контакты</a></li>
+      <li><a href="login.html">Кабинет</a></li>
+    </ul>
+  </nav>
+
+  <div class="main">
+    <aside class="sidebar-left">
+      <ul>
+        <li id="li-login"><a href="#" id="loginLink">Вход</a></li>
+        <li id="li-register"><a href="#" id="registerLink">Регистрация</a></li>
+        <li id="li-account" class="hidden"><a href="#" id="accountLink">Мой аккаунт</a></li>
+      </ul>
+    </aside>
+
+    <section class="content">
+      <!-- Секция аккаунта -->
+      <div id="account" class="hidden">
+        <h2>Мой аккаунт</h2>
+        <div id="accountMsg" class="message hidden"></div>
+        <form id="accountForm">
+          <label>ФИО:<br>
+            <input type="text" name="fullName" id="acc-fullName-input" required>
+          </label>
+          <label>Email:<br>
+            <input type="email" name="email" id="acc-email-input" required>
+          </label>
+          <label>Телефон:<br>
+            <input type="tel" name="phone" id="acc-phone-input" required>
+          </label>
+          <button type="submit">Сохранить</button>
+        </form>
+        <div class="account-buttons">
+          <button id="gotoCartBtn">Перейти в корзину</button>
+          <button id="leaveReviewBtn">Оставь отзыв</button>
+          <button id="logoutBtn">Выйти</button>
+        </div>
       </div>
 
-      <!-- Форма ВОЙТИ -->
-      <form id="loginForm" class="login-form form-login" action="#" method="post" style="display:flex; flex-direction:column;">
-        <div id="loginMessage" class="form-message"></div>
-        <div class="form-group">
-          <label for="login-email">Email</label>
-          <input id="login-email" type="email" name="email" placeholder="Введите ваш email" required>
-        </div>
-        <div class="form-group">
-          <label for="login-password">Пароль</label>
-          <input id="login-password" type="password" name="password" placeholder="Введите пароль" required>
-        </div>
-        <div class="form-options">
-          <label><input type="checkbox" name="remember"> Запомнить меня</label>
-          <a href="#" class="forgot">Забыли пароль?</a>
-        </div>
-        <button type="submit" class="btn btn--login">Войти</button>
-      </form>
+      <!-- Форма входа -->
+      <div id="login" class="hidden">
+        <h2>Вход</h2>
+        <div id="loginMsg" class="message hidden"></div>
+        <form id="loginForm">
+          <label>Email:<br>
+            <input type="email" name="identifier" required>
+          </label>
+          <label>Пароль:<br>
+            <input type="password" name="password" required>
+          </label>
+          <button type="submit">Войти</button>
+        </form>
+      </div>
 
-      <!-- Форма РЕГИСТРАЦИЯ -->
-      <form id="registerForm" class="login-form form-register" action="#" method="post" style="display:none; flex-direction:column;">
-        <div id="registerMessage" class="form-message"></div>
-        <div class="form-group">
-          <label for="reg-name">Имя</label>
-          <input id="reg-name" type="text" name="name" placeholder="Ваше имя" required>
-        </div>
-        <div class="form-group">
-          <label for="reg-email">Email</label>
-          <input id="reg-email" type="email" name="email" placeholder="example@mail.com" required>
-        </div>
-        <div class="form-group">
-          <label for="reg-password">Пароль</label>
-          <input id="reg-password" type="password" name="password" placeholder="Придумайте пароль" required>
-        </div>
-        <div class="form-group">
-          <label for="reg-password-confirm">Повторите пароль</label>
-          <input id="reg-password-confirm" type="password" name="password_confirm" placeholder="Повторите пароль" required>
-        </div>
-        <div class="form-options">
-          <label><input type="checkbox" name="terms" required> Принимаю условия <a href="#">пользовательского соглашения</a></label>
-        </div>
-        <button type="submit" class="btn btn--login">Зарегистрироваться</button>
-      </form>
+      <!-- Форма регистрации -->
+      <div id="register" class="hidden">
+        <h2>Регистрация</h2>
+        <div id="regMsg" class="message hidden"></div>
+        <form id="regForm">
+          <label>ФИО:<br>
+            <input type="text" name="fullName" required>
+          </label>
+          <label>Телефон:<br>
+            <input type="tel" name="phone" required placeholder="+7 900 123-45-67">
+          </label>
+          <label>Email:<br>
+            <input type="email" name="email" required>
+          </label>
+          <label>Пароль:<br>
+            <input type="password" name="password" required>
+          </label>
+          <label>Повторите пароль:<br>
+            <input type="password" name="confirmPassword" required>
+          </label>
+          <div class="checkbox-group">
+            <input type="checkbox" name="agree" id="agree" required>
+            <label for="agree">Согласен с <a href="PK.pdf" target="_blank">Политикой конфиденциальности</a></label>
+          </div>
+          <button type="submit">Зарегистрироваться</button>
+        </form>
+      </div>
+    </section>
 
-    </div>
-  </main>
+    <aside class="sidebar-right"></aside>
+  </div>
 
-  <!-- FOOTER -->
-  <footer class="site-footer">
-    <div class="container footer-inner">
-      <p>&copy; 2025 «Global Travel». Все права защищены.</p>
-      <nav class="footer-nav">
-        <a href="index.html">Главная</a>
-        <a href="catalog.html">Туры</a>
-        <a href="contacts.html">Контакты</a>
-      </nav>
-    </div>
-  </footer>
+<footer>
+  <p>
+    <a href="PK.pdf" id="privacyLink">Политика конфиденциальности</a>
+  </p>
+  © 2025 «Золотая середина». Все права защищены.
+</footer>
+
+<script>
+  document.getElementById('privacyLink').addEventListener('click', function(e) {
+    e.preventDefault();
+    window.open(
+      'PK.pdf',                // URL
+      'PrivacyPolicyWindow',   // имя окна
+      'width=800,height=600,' + // размер
+      'toolbar=no,location=no,' +
+      'status=no,menubar=no,' +
+      'scrollbars=yes,resizable=yes'
+    );
+  });
+</script>
 
   <script>
-    // Таб-переключатель
-    const tabButtons      = document.querySelectorAll('.tab-btn');
-    const loginForm       = document.getElementById('loginForm');
-    const registerForm    = document.getElementById('registerForm');
-    const loginMessage    = document.getElementById('loginMessage');
-    const registerMessage = document.getElementById('registerMessage');
+    const sections = ['login','register','account'];
+    function show(id) {
+      sections.forEach(sec => {
+        document.getElementById(sec).classList.toggle('hidden', sec !== id);
+      });
+      ['loginMsg','regMsg','accountMsg'].forEach(i => document.getElementById(i).classList.add('hidden'));
+    }
+    function updateMenu(auth) {
+      ['login','register'].forEach(name => {
+        document.getElementById('li-'+name).classList.toggle('hidden', auth);
+      });
+      document.getElementById('li-account').classList.toggle('hidden', !auth);
+    }
+    async function checkAuth() {
+      try {
+        const res = await fetch('/api/auth/me');
+        if (!res.ok) throw 0;
+        const user = await res.json();
+        document.getElementById('acc-fullName-input').value = user.fullName;
+        document.getElementById('acc-email-input').value    = user.email;
+        document.getElementById('acc-phone-input').value    = user.phone;
+        updateMenu(true);
+        show('account');
+      } catch {
+        updateMenu(false);
+        show('login');
+      }
+    }
+    window.addEventListener('DOMContentLoaded', () => {
+      document.getElementById('loginLink').onclick    = e => (e.preventDefault(), show('login'));
+      document.getElementById('registerLink').onclick = e => (e.preventDefault(), show('register'));
+      document.getElementById('accountLink').onclick  = e => (e.preventDefault(), checkAuth());
 
-    tabButtons.forEach(btn => {
-      btn.addEventListener('click', () => {
-        tabButtons.forEach(b => b.classList.remove('active'));
-        btn.classList.add('active');
-        if (btn.dataset.tab === 'login') {
-          loginForm.style.display    = 'flex';
-          registerForm.style.display = 'none';
-        } else {
-          loginForm.style.display    = 'none';
-          registerForm.style.display = 'flex';
+      // LOGIN
+      document.getElementById('loginForm').onsubmit = async e => {
+        e.preventDefault();
+        const msg  = document.getElementById('loginMsg'); msg.className='message hidden';
+        const f    = e.target;
+        const data = { identifier: f.identifier.value.trim(), password: f.password.value };
+        try {
+          const res = await fetch('/api/auth/login', { method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify(data) });
+          const j   = await res.json(); if(!res.ok) throw new Error(j.error);
+          checkAuth();
+        } catch(err) {
+          msg.textContent = err.message; msg.className='message error';
         }
-        loginMessage.textContent    = '';
-        registerMessage.textContent = '';
-      });
-    });
+      };
 
-    // Обработка входа по email
-    loginForm.addEventListener('submit', async e => {
-      e.preventDefault();
-      loginMessage.textContent = '';
+      // REGISTER
+      document.getElementById('regForm').onsubmit = async e => {
+        e.preventDefault();
+        const msg = document.getElementById('regMsg'); msg.className='message hidden';
+        const f   = e.target;
+        if (f.password.value !== f.confirmPassword.value) {
+          msg.textContent = 'Пароли не совпадают'; return msg.className='message error';
+        }
+        try {
+          const res = await fetch('/api/auth/register', {
+            method:'POST', headers:{'Content-Type':'application/json'},
+            body: JSON.stringify({
+              fullName:        f.fullName.value.trim(),
+              phone:           f.phone.value.trim(),
+              email:           f.email.value.trim(),
+              password:        f.password.value,
+              confirmPassword: f.confirmPassword.value,
+              agree:           f.agree.checked
+            })
+          });
+          const j = await res.json(); if(!res.ok) throw new Error(j.error);
+          checkAuth();
+        } catch(err) {
+          msg.textContent = err.message; msg.className='message error';
+        }
+      };
 
-      const formData = new FormData(loginForm);
-      const payload  = Object.fromEntries(formData.entries());
-      // payload = { email: "...", password: "..." }
+      // UPDATE PROFILE
+      document.getElementById('accountForm').onsubmit = async e => {
+        e.preventDefault();
+        const msg = document.getElementById('accountMsg'); msg.className='message hidden';
+        const f   = e.target;
+        try {
+          const res = await fetch('/api/auth/me', {
+            method:'PUT', headers:{'Content-Type':'application/json'},
+            body: JSON.stringify({
+              fullName: f.fullName.value.trim(),
+              email:    f.email.value.trim(),
+              phone:    f.phone.value.trim()
+            })
+          });
+          const j = await res.json(); if(!res.ok) throw new Error(j.error);
+          msg.textContent = 'Данные сохранены'; msg.className='message success';
+          checkAuth();
+        } catch(err) {
+          msg.textContent = err.message; msg.className='message error';
+        }
+      };
 
-      const res = await fetch('/api/auth/login', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(payload)
-      });
-      const data = await res.json();
+      // CART & REVIEW buttons
+      document.getElementById('gotoCartBtn').onclick    = () => window.location.href = 'cart.html';
+      document.getElementById('leaveReviewBtn').onclick = () => window.location.href = 'review.html';
 
-      if (data.success) {
-        window.location.href = '/index.html';
-      } else {
-        loginMessage.textContent = data.error || 'Ошибка при входе';
-      }
-    });
+      // LOGOUT
+      document.getElementById('logoutBtn').onclick = async () => { await fetch('/api/auth/logout',{method:'POST'}); checkAuth(); };
 
-    // Обработка регистрации
-    registerForm.addEventListener('submit', async e => {
-      e.preventDefault();
-      registerMessage.textContent = '';
-
-      const formData = new FormData(registerForm);
-      const payload  = Object.fromEntries(formData.entries());
-
-      if (payload.password !== payload.password_confirm) {
-        registerMessage.textContent = 'Пароли не совпадают';
-        return;
-      }
-
-      const res = await fetch('/api/auth/register', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          username: payload.name,
-          email:    payload.email,
-          password: payload.password
-        })
-      });
-      const data = await res.json();
-
-      if (data.success) {
-        window.location.href = '/index.html';
-      } else {
-        registerMessage.textContent = data.error || 'Ошибка при регистрации';
-      }
+      checkAuth();
     });
   </script>
-
 </body>
 </html>

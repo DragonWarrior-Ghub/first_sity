@@ -1,13 +1,15 @@
 // routes/auth.js
-const Router = require('express').Router;
-const { register, login, logout, status } = require('../controllers/authController');
-const router = Router();
+const express = require('express');
+const router  = express.Router();
+const auth    = require('../controllers/authController');
 
-// Проверка статуса (должно быть ДО статической отдачи)
-router.get('/status', status);
+// Регистрация, вход, выход
+router.post('/register', auth.register);
+router.post('/login',    auth.login);
+router.post('/logout',   auth.logout);
 
-router.post('/register', register);
-router.post('/login',    login);
-router.post('/logout',   logout);
+// Получение профиля и его обновление
+router.get('/me',        auth.me);
+router.put('/me',        auth.updateProfile);
 
 module.exports = router;

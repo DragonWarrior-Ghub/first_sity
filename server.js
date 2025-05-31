@@ -1,30 +1,40 @@
 // server.js
-const express = require('express');
-const session = require('express-session');
+const path        = require('path');
+const express     = require('express');
+const session     = require('express-session');
 const SQLiteStore = require('connect-sqlite3')(session);
-const path = require('path');
+
+const authRouter       = require('./routes/auth');
+const toursRouter      = require('./routes/tours');
+const cartRouter       = require('./routes/cart');
+const commentsRouter   = require('./routes/comments');
+const inquiriesRouter  = require('./routes/inquiries');
 
 const app = express();
 
-// Парсеры
+// Body parsers
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// Сессии
+// Sessions
 app.use(session({
   store: new SQLiteStore({ db: 'sessions.sqlite', dir: './DB' }),
   secret: 'ваш_секрет_для_сессий',
   resave: false,
   saveUninitialized: false,
-  cookie: { maxAge: 86400000 }
+  cookie: { maxAge: 24 * 60 * 60 * 1000 } // 1 день
 }));
 
-// Роуты аутентификации (включая /status)
-app.use('/api/auth', require('./routes/auth'));
+// API routes
+app.use('/api/auth',       authRouter);
+app.use('/api/tours',      toursRouter);
+app.use('/api/cart',       cartRouter);
+app.use('/api/comments',   commentsRouter);
+app.use('/api/inquiries',  inquiriesRouter);
 
-// Отдача статики
+// Static files
 app.use(express.static(path.join(__dirname, 'public')));
 
-// Запуск
+// Start server
 const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => console.log(`🚀 Server on http://localhost:${PORT}`));
+app.listen(PORT, () => console.log(`Server is running on http://localhost:${PORT}`));

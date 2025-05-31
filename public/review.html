@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Оставить отзыв — Золотая середина</title>
+  <link rel="stylesheet" href="css/style.css">
+  <style>
+    .hidden { display: none; }
+    .message { margin: 1rem 0; padding: 0.5rem; border-radius: 4px; }
+    .message.error { background: #fdd; color: #900; }
+    .message.success { background: #dfd; color: #090; }
+    form label { display: block; margin-bottom: 0.5rem; }
+    form input, form textarea {
+      width: 100%; padding: 8px; margin-bottom: 1rem;
+      border: 1px solid #ccc; border-radius: 4px;
+    }
+    button { padding: 10px 20px; background: #ff9500; color: #fff; border: none; border-radius: 4px; cursor: pointer; }
+    button:hover { background: #e08400; }
+  </style>
+</head>
+<body>
+  <header>
+    <img class="logo" src="images/logo.png" alt="Логотип">
+    <h1>Оставить отзыв</h1>
+  </header>
+
+  <nav class="main-menu">
+    <ul>
+      <li><a href="index.html">Главная</a></li>
+      <li><a href="catalog.html">Каталог</a></li>
+      <li><a href="contacts.html">Контакты</a></li>
+      <li><a href="login.html">Кабинет</a></li>
+    </ul>
+  </nav>
+
+  <div class="main">
+    <aside class="sidebar-left"></aside>
+    <section class="content">
+      <div id="notAuthMsg" class="message error hidden">Пожалуйста, <a href="login.html">войдите</a>, чтобы оставить отзыв.</div>
+      <div id="reviewFormContainer" class="hidden">
+        <form id="reviewForm">
+          <div id="formMsg" class="message hidden"></div>
+          <label>ФИО:
+            <input type="text" name="fullName" id="fullName" readonly>
+          </label>
+          <label>Email:
+            <input type="email" name="email" id="email" readonly>
+          </label>
+          <label>Комментарий:
+            <textarea name="comment" id="comment" rows="5" required></textarea>
+          </label>
+          <button type="submit">Отправить отзыв</button>
+        </form>
+      </div>
+    </section>
+    <aside class="sidebar-right"></aside>
+  </div>
+
+<footer>
+  <p>
+    <a href="PK.pdf" id="privacyLink">Политика конфиденциальности</a>
+  </p>
+  © 2025 «Золотая середина». Все права защищены.
+</footer>
+
+<script>
+  document.getElementById('privacyLink').addEventListener('click', function(e) {
+    e.preventDefault();
+    window.open(
+      'PK.pdf',                // URL
+      'PrivacyPolicyWindow',   // имя окна
+      'width=800,height=600,' + // размер
+      'toolbar=no,location=no,' +
+      'status=no,menubar=no,' +
+      'scrollbars=yes,resizable=yes'
+    );
+  });
+</script>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const notAuthMsg = document.getElementById('notAuthMsg');
+      const formContainer = document.getElementById('reviewFormContainer');
+      const form = document.getElementById('reviewForm');
+      const msg = document.getElementById('formMsg');
+
+      async function init() {
+        try {
+          const res = await fetch('/api/auth/me');
+          if (!res.ok) throw 0;
+          const user = await res.json();
+          document.getElementById('fullName').value = user.fullName;
+          document.getElementById('email').value = user.email;
+          notAuthMsg.classList.add('hidden');
+          formContainer.classList.remove('hidden');
+        } catch {
+          notAuthMsg.classList.remove('hidden');
+          formContainer.classList.add('hidden');
+        }
+      }
+
+      form.addEventListener('submit', async e => {
+        e.preventDefault();
+        msg.className = 'message hidden';
+        const comment = document.getElementById('comment').value.trim();
+        if (!comment) return;
+        try {
+          const res = await fetch('/api/comments', {
+            method: 'POST',
+            headers: {'Content-Type':'application/json'},
+            body: JSON.stringify({ full_name: document.getElementById('fullName').value, email: document.getElementById('email').value, comment })
+          });
+          const j = await res.json();
+          if (!res.ok) throw new Error(j.error || 'Ошибка отправки');
+          msg.textContent = 'Спасибо за ваш отзыв!';
+          msg.className = 'message success';
+          form.reset();
+        } catch (err) {
+          msg.textContent = err.message;
+          msg.className = 'message error';
+        }
+      });
+
+      init();
+    });
+  </script>
+</body>
+</html>

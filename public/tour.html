@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Золотая середина — Деталь тура</title>
+  <link rel="stylesheet" href="css/style.css" />
+  <style>
+    html, body { height:100%; margin:0; display:flex; flex-direction:column; }
+    body>header, body>nav, body>footer { flex-shrink:0; }
+    .main { display:flex; flex:1; }
+    .sidebar-left, .sidebar-right { width:15%; background:#ff8000; }
+    .content.tour-detail {
+      flex:1; padding:40px; max-width:800px; margin:0 auto;
+      overflow-y:auto; background:#fff; min-width:0;
+    }
+    .btn {
+      display:inline-block; margin-top:20px; padding:10px 20px;
+      background:#ff8000; color:#fff; border:none; border-radius:4px;
+      cursor:pointer; text-decoration:none;
+    }
+    .btn:hover { background:#ff8000; }
+  </style>
+</head>
+<body>
+  <header>
+    <img class="logo" src="images/logo.png" alt="Логотип">
+    <h1>Детали тура</h1>
+  </header>
+
+  <nav class="main-menu">
+    <ul>
+      <li><a href="index.html">Главная</a></li>
+      <li><a href="catalog.html">Каталог</a></li>
+      <li><a href="contacts.html">Контакты</a></li>
+      <li><a href="login.html">Кабинет</a></li>
+    </ul>
+  </nav>
+
+  <div class="main">
+    <aside class="sidebar-left"></aside>
+    <section class="content tour-detail" id="tour-detail"></section>
+    <aside class="sidebar-right"></aside>
+  </div>
+
+<footer>
+  <p>
+    <a href="PK.pdf" id="privacyLink">Политика конфиденциальности</a>
+  </p>
+  © 2025 «Золотая середина». Все права защищены.
+</footer>
+
+<script>
+  document.getElementById('privacyLink').addEventListener('click', function(e) {
+    e.preventDefault();
+    window.open(
+      'PK.pdf',                // URL
+      'PrivacyPolicyWindow',   // имя окна
+      'width=800,height=600,' + // размер
+      'toolbar=no,location=no,' +
+      'status=no,menubar=no,' +
+      'scrollbars=yes,resizable=yes'
+    );
+  });
+</script>
+
+  <script src="js/tour.js"></script>
+</body>
+</html>

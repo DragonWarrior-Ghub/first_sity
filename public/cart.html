@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Корзина — Золотая середина</title>
+  <link rel="stylesheet" href="css/style.css" />
+  <style>
+    html, body {
+      height: 100%;
+      margin: 0;
+      display: flex;
+      flex-direction: column;
+    }
+    body > header,
+    body > nav,
+    body > footer {
+      flex-shrink: 0;
+    }
+    .main {
+      display: flex;
+      flex: 1;
+    }
+    .sidebar-left,
+    .sidebar-right {
+      width: 15%;
+      background: #ff8000;
+    }
+    .content {
+      flex: 1;
+      padding: 40px;
+      background: #fff;
+      min-width: 0;
+      overflow-y: auto;
+    }
+    table.cart-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 20px;
+    }
+    table.cart-table th,
+    table.cart-table td {
+      border: 1px solid #ccc;
+      padding: 8px;
+      text-align: left;
+    }
+    table.cart-table th {
+      background: #ff8000;
+      color: #000;
+    }
+    table.cart-table td a {
+      color: #007bff;
+      text-decoration: none;
+    }
+    table.cart-table td a:hover {
+      text-decoration: underline;
+    }
+    .btn-delete {
+      padding: 4px 8px;
+      background: #ff3b30;
+      color: #fff;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+    .btn-delete:hover {
+      background: #e02a20;
+    }
+    .empty-cart {
+      font-style: italic;
+      color: #555;
+      margin-top: 20px;
+    }
+    /* Итоговая строка */
+    .cart-summary {
+      margin-top: 20px;
+      font-weight: bold;
+      text-align: right;
+    }
+    /* Кнопка оплаты */
+    #payBtn {
+      display: inline-block;
+      margin-top: 10px;
+      padding: 10px 20px;
+      background: #ccc;
+      color: #666;
+      border: none;
+      border-radius: 4px;
+      cursor: not-allowed;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <img class="logo" src="images/logo.png" alt="Логотип" />
+    <h1>Ваша корзина</h1>
+  </header>
+
+  <nav class="main-menu">
+    <ul>
+      <li><a href="index.html">Главная</a></li>
+      <li><a href="catalog.html">Каталог</a></li>
+      <li><a href="contacts.html">Контакты</a></li>
+      <li><a href="login.html">Кабинет</a></li>
+    </ul>
+  </nav>
+
+  <div class="main">
+    <aside class="sidebar-left"></aside>
+
+    <section class="content">
+      <h2>Содержимое корзины</h2>
+      <div id="cart-container">
+        <!-- Здесь будет таблица или сообщение о пустоте -->
+      </div>
+      <!-- Итоговая стоимость и кнопка оплаты -->
+      <div class="cart-summary" id="cart-summary" style="display:none;">
+        Итого: <span id="total-price">0</span> ₽
+      </div>
+      <button id="payBtn" disabled>Оплатить</button>
+    </section>
+
+    <aside class="sidebar-right"></aside>
+  </div>
+
+<footer>
+  <p>
+    <a href="PK.pdf" id="privacyLink">Политика конфиденциальности</a>
+  </p>
+  © 2025 «Золотая середина». Все права защищены.
+</footer>
+
+<script>
+  document.getElementById('privacyLink').addEventListener('click', function(e) {
+    e.preventDefault();
+    window.open(
+      'PK.pdf',                // URL
+      'PrivacyPolicyWindow',   // имя окна
+      'width=800,height=600,' + // размер
+      'toolbar=no,location=no,' +
+      'status=no,menubar=no,' +
+      'scrollbars=yes,resizable=yes'
+    );
+  });
+</script>
+
+  <script src="js/cart.js"></script>
+</body>
+</html>
